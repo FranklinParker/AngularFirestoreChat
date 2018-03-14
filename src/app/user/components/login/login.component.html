@@ -2,30 +2,33 @@
   <div class="login-form"
        fxLayoutAlign="center center">
     <form  (ngSubmit)="onSubmit()"
+           #loginForm="ngForm"
            fxLayout="column"
            fxLayoutAlign="center center"
            fxLayoutGap="10px">
       <mat-form-field>
         <input matInput
-               placeholder="Your Email"
+               placeholder="Enter Email"
                name="email"
                type="email"
-               [(ngModel)]="email"
+               #email="ngModel"
+               ngModel
                required>
-        <mat-hint>Please enter a valid email</mat-hint>
-        <mat-error>Email is not valid</mat-error>
+        <mat-error *ngIf="email.hasError('required')">Email is required</mat-error>
       </mat-form-field>
       <mat-form-field>
         <input matInput
-               [(ngModel)]="password"
+               ngModel
                name="password"
                placeholder="Your Password"
                type="password"
+               #password="ngModel"
                required>
-        <mat-hint>Please enter password</mat-hint>
+        <mat-error *ngIf="password.hasError('required')">Password is required</mat-error>
       </mat-form-field>
       <button type="submit"
-              mat-raised-button>Submit
+              mat-raised-button
+              [disabled]="loginForm.invalid">Submit
         <mat-icon>forward</mat-icon>
       </button>
     </form>
