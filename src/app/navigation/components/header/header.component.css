@@ -1,11 +1,3 @@
-mat-sidenav, mat-sidenav-container, mat-sidenav-content{
-  height: 100%;
-
-}
-
-mat-sidenav{
-  width: 250px;
-}
 
 a{
   text-decoration: none;
@@ -26,4 +18,3 @@ a:hover, a:active{
   display: inline-block;
   padding-left: 6px;
 }
-
