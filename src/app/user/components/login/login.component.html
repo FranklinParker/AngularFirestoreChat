@@ -1,5 +1,33 @@
-<div class="card card-body m-3">
-  <div class="row" >
-    <div class="col align-content-center" ><h1>test</h1></div>
+<div class="card card-body m-3" fxLayoutAlign="center center">
+  <div class="login-form"
+       fxLayoutAlign="center center">
+    <form  (ngSubmit)="onSubmit()"
+           fxLayout="column"
+           fxLayoutAlign="center center"
+           fxLayoutGap="10px">
+      <mat-form-field>
+        <input matInput
+               placeholder="Your Email"
+               name="email"
+               type="email"
+               [(ngModel)]="email"
+               required>
+        <mat-hint>Please enter a valid email</mat-hint>
+        <mat-error>Email is not valid</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput
+               [(ngModel)]="password"
+               name="password"
+               placeholder="Your Password"
+               type="password"
+               required>
+        <mat-hint>Please enter password</mat-hint>
+      </mat-form-field>
+      <button type="submit"
+              mat-raised-button>Submit
+        <mat-icon>forward</mat-icon>
+      </button>
+    </form>
   </div>
 </div>
