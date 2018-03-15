@@ -1,7 +1,12 @@
-.login-form{
+.card-header,.card-body{
   border: solid 1px lightgray;
   border-radius: 10px;
-  width: 400px;
+  width: 450px;
+}
+
+.card-header {
+  background-color: azure;
+  color: blue;
 }
 
 mat-error{

@@ -17,7 +17,7 @@ export class RegistrationComponent implements OnInit {
 
   onSubmit(registrationForm: NgForm) {
     console.log('regForm',  registrationForm.value);
-    
+
   }
 
 
