@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
   selector: 'app-chat-main',
@@ -6,14 +6,20 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./chat-main.component.css']
 })
 export class ChatMainComponent implements OnInit {
-  chatMessages: string = 'test \n new';
+  chatMessages = '';
   chatMessage: string;
-  constructor() { }
+
+  constructor() {
+  }
 
   ngOnInit() {
   }
+
   onMessageKey(evt$) {
-    console.log(evt$);
+    if (evt$.keyCode === 13) {
+      this.chatMessages += '\n' + this.chatMessage;
+      this.chatMessage = '';
+    }
 
   }
 
