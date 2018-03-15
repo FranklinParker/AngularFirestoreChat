@@ -1,3 +1,27 @@
+Please note the 
+environments/environment.prod.ts
+environments/environment.ts
+
+have been excluded because there is a need to set up a version of firestore on your own:
+
+export const environment = {
+  production: false,
+  firebase: {
+    apiKey: "yourApiKey",
+    authDomain: "authdomain",
+    databaseURL: "dburl",
+    projectId: "projectId,
+    storageBucket: "urValue",
+    messagingSenderId: "Urvalue"
+  }
+};
+
+please refer to:
+https://github.com/angular/angularfire2/blob/master/docs/install-and-setup.md
+
+
+
+
 # AngularFsChat
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.6.
