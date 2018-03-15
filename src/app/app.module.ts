@@ -15,6 +15,7 @@ import {environment} from '../environments/environment';
 import {AngularFirestoreModule} from 'angularfire2/firestore';
 import {StoreModule} from '@ngrx/store';
 import { reducers } from './app.reducer';
+import {ChatModule} from './chat/chat.module';
 
 
 @NgModule({
@@ -29,6 +30,7 @@ import { reducers } from './app.reducer';
     AppRoutingModule,
     FlexLayoutModule,
     MaterialModule,
+    ChatModule,
     UserModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule,
