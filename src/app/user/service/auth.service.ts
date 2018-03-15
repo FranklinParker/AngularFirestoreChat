@@ -1,11 +1,13 @@
 import {Injectable} from '@angular/core';
 import {AngularFireAuth} from 'angularfire2/auth';
 import {UserModel} from '../user-model';
+import {UiService} from '../../shared/service/ui.service';
 
 @Injectable()
 export class AuthService {
 
-  constructor(private afAuth: AngularFireAuth) {
+  constructor(private afAuth: AngularFireAuth,
+              private uiService: UiService) {
   }
 
   /**
@@ -18,7 +20,7 @@ export class AuthService {
     this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.email)
       .then((result) => {
         console.log('user registered', result);
-      }, (err) => console.log('err', err));
+      }, (err) => this.uiService.showSnackbar(err.message, null, 4000));
   }
 
 }
