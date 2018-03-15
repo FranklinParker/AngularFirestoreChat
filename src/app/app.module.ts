@@ -13,6 +13,8 @@ import {FlexLayoutModule} from '@angular/flex-layout';
 import {AngularFireModule} from 'angularfire2';
 import {environment} from '../environments/environment';
 import {AngularFirestoreModule} from 'angularfire2/firestore';
+import {StoreModule} from '@ngrx/store';
+import { reducers } from './app.reducer';
 
 
 @NgModule({
@@ -29,7 +31,8 @@ import {AngularFirestoreModule} from 'angularfire2/firestore';
     MaterialModule,
     UserModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule
+    AngularFirestoreModule,
+    StoreModule.forRoot(reducers)
   ],
   providers: [],
   bootstrap: [AppComponent]
