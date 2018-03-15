@@ -1,44 +1,49 @@
-<div class="registration-form"
-     fxLayoutAlign="center center">
-  <form (ngSubmit)="onSubmit(registrationForm)"
-        #registrationForm="ngForm"
-        fxLayout="column"
-        fxLayoutAlign="center center"
-        fxLayoutGap="10px">
-    <mat-form-field>
-      <input matInput
-             placeholder="Enter Email"
-             name="email"
-             type="email"
-             #email="ngModel"
-             ngModel
-             required>
-      <mat-error *ngIf="email.hasError('required')">Email is required</mat-error>
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput
-             ngModel
-             name="password"
-             placeholder="Your Password"
-             type="password"
-             #password="ngModel"
-             required>
-      <mat-error *ngIf="password.hasError('required')">Password is required</mat-error>
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput
-             ngModel
-             name="name"
-             placeholder="Your Chat Name"
-             type="text"
-             #name="ngModel"
-             required>
-      <mat-error *ngIf="name.hasError('required')">Name is required</mat-error>
-    </mat-form-field>
-    <button type="submit"
-            mat-raised-button
-            [disabled]="registrationForm.invalid">Submit
-      <mat-icon>forward</mat-icon>
-    </button>
-  </form>
+<div class="card"
+     fxLayoutAlign="center center" fxLayout="column">
+  <div class="card-header m-1">
+    <h4 class="text-center">Register for Chat</h4>
+  </div>
+  <div class="card-body" fxLayoutAlign="center center">
+    <form (ngSubmit)="onSubmit(registrationForm)"
+          #registrationForm="ngForm"
+          fxLayout="column"
+          fxLayoutAlign="center center"
+          fxLayoutGap="10px">
+      <mat-form-field>
+        <input matInput
+               placeholder="Enter Email"
+               name="email"
+               type="email"
+               #email="ngModel"
+               ngModel
+               required>
+        <mat-error *ngIf="email.hasError('required')">Email is required</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput
+               ngModel
+               name="password"
+               placeholder="Your Password"
+               type="password"
+               #password="ngModel"
+               required>
+        <mat-error *ngIf="password.hasError('required')">Password is required</mat-error>
+      </mat-form-field>
+      <mat-form-field>
+        <input matInput
+               ngModel
+               name="name"
+               placeholder="Your Chat Name"
+               type="text"
+               #name="ngModel"
+               required>
+        <mat-error *ngIf="name.hasError('required')">Name is required</mat-error>
+      </mat-form-field>
+      <button type="submit"
+              mat-raised-button
+              [disabled]="registrationForm.invalid">Submit
+        <mat-icon>forward</mat-icon>
+      </button>
+    </form>
+  </div>
 </div>
