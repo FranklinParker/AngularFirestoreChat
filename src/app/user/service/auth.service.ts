@@ -6,11 +6,13 @@ import {Store} from '@ngrx/store';
 import * as fromRoot from '../../app.reducer';
 import * as Auth from '../auth.actions';
 import {Router} from '@angular/router';
+import {AngularFirestore} from 'angularfire2/firestore';
 
 @Injectable()
 export class AuthService {
 
   constructor(private afAuth: AngularFireAuth,
+              private db: AngularFirestore,
               private uiService: UiService,
               private store: Store<fromRoot.State>,
               private router: Router) {
@@ -38,8 +40,46 @@ export class AuthService {
     console.log('registerUser ', user);
     this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.email)
       .then((result) => {
-        console.log('user registered', result);
-      }, (err) => this.uiService.showSnackbar(err.message, null, 4000));
+        this.addUser(user);
+      })
+      .catch(err =>
+        this.uiService.showSnackbar(err.message, null, 4000));
+  }
+
+  /**
+   * login
+   *
+   * @param {string} email
+   * @param {string} password
+   */
+  login(email: string, password: string) {
+    this.afAuth.auth.signInWithEmailAndPassword(email, password)
+      .then((resp) => {
+      })
+      .catch(err =>
+        this.uiService.showSnackbar(err.message, null, 4000));
+  }
+
+
+  /**
+   * add a user with name and email
+   *
+   * @param {UserModel} user
+   */
+
+  private addUser(user: UserModel) {
+    this.db.collection('users')
+      .add({
+        email: user.email,
+        name: user.name
+      })
+      .then((result) => {
+
+      })
+      .catch((err) =>
+        this.uiService.showSnackbar(err.message, null, 4000));
+
+
   }
 
 }

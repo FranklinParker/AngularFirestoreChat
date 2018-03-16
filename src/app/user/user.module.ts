@@ -5,12 +5,14 @@ import { RegistrationComponent } from './components/registration/registration.co
 import {SharedModule} from '../shared/shared.module';
 import {AngularFireAuthModule} from 'angularfire2/auth';
 import {AuthService} from './service/auth.service';
+import {AngularFireModule} from 'angularfire2';
 
 @NgModule({
   imports: [
     CommonModule,
     SharedModule,
-    AngularFireAuthModule
+    AngularFireAuthModule,
+    AngularFireModule
   ],
   declarations: [
     LoginComponent,
