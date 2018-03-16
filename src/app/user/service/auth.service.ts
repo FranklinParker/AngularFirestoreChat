@@ -37,8 +37,7 @@ export class AuthService {
    * @param {UserModel} user
    */
   registerUser(user: UserModel) {
-    console.log('registerUser ', user);
-    this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.email)
+    this.afAuth.auth.createUserWithEmailAndPassword(user.email, user.password)
       .then((result) => {
         this.addUser(user);
       })
