@@ -1,13 +1,26 @@
 <div class="row m-1">
   <div class="col-3">
     <div class="card card-body">
-
+      <mat-form-field *ngIf="chatRooms$ | async">
+        <mat-select placeholder="Select Chat Room"
+                    [(ngModel)]="selectedChatRoom"
+                    ngModel name="exercise" required>
+          <mat-option *ngFor="let chatRoom of  chatRooms$| async"
+                      [value]="chatRoom">
+            {{ chatRoom.name }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
     </div>
   </div>
   <div class="col-9">
     <div class="card m-2" fxLayout="column" fxLayoutAlign="center center">
       <div class="card-header m-1">
-        <h5 class="text-center">Chat Main</h5>
+        <h5 class="text-center" *ngIf="!selectedChatRoom">
+          Select Chat Room</h5>
+        <h5 class="text-center" *ngIf="selectedChatRoom">
+          Welcome to chat room - {{selectedChatRoom.name}}</h5>
+
       </div>
       <div class="card-body m-1">
         <div class="row">
@@ -18,7 +31,6 @@
                 matTextareaAutosize
                 matAutosizeMinRows="10"
                 matAutosizeMaxRows="15">
-
             </textarea>
           </mat-form-field>
         </div>

@@ -4,6 +4,7 @@ import {Store} from '@ngrx/store';
 import {ChatService} from '../../services/chat.service';
 import {Observable} from 'rxjs/Observable';
 import {ChatRoomModel} from '../../chat-room.model';
+import {MatSelectModule} from '@angular/material';
 
 @Component({
   selector: 'app-chat-room',
@@ -14,6 +15,7 @@ export class ChatRoomComponent implements OnInit {
   chatMessages = '';
   chatMessage: string;
   chatRooms$: Observable<ChatRoomModel[]>;
+  selectedChatRoom: ChatRoomModel;
 
   constructor(private store: Store<fromRoot.State>) {
   }
