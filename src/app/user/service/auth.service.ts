@@ -29,7 +29,6 @@ export class AuthService {
         this.store.dispatch(new Auth.SetAuthenticated());
         this.router.navigate(['/chat']);
       } else {
-        //this.trainingService.cancelSubscriptions();
         this.chatService.unsubScribe();
         this.cancelSubscription();
         this.store.dispatch(new Auth.SetUnauthenticated());
