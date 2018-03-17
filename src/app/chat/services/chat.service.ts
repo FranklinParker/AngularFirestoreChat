@@ -30,7 +30,11 @@ export class ChatService {
           return docArray.map(doc => {
             return {
               id: doc.payload.doc.id,
-              name: doc.payload.doc.data().name
+              name: doc.payload.doc.data().name,
+              owner: {
+                name: doc.payload.doc.data().owner.name,
+                email: doc.payload.doc.data().owner.email
+              }
             };
           });
         })
