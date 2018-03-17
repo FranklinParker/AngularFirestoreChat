@@ -56,9 +56,27 @@ export class AuthService {
   login(email: string, password: string) {
     this.afAuth.auth.signInWithEmailAndPassword(email, password)
       .then((resp) => {
+        this.loadUser(email);
       })
       .catch(err =>
         this.uiService.showSnackbar(err.message, null, 4000));
+  }
+
+  private loadUser(email: string) {
+    this.db.collection('users',
+      ref => ref.where('email', '==', email)
+    )
+      .valueChanges()
+      .subscribe((users) => {
+        if (users && users.length > 0) {
+          const user = {
+            name: users[0]['name'],
+            email: users[0]['email']
+          }
+          this.store.dispatch(new SetUser(user));
+        }
+      });
+
   }
 
 
