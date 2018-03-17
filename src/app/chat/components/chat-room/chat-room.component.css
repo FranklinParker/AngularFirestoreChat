@@ -1,0 +1,12 @@
+.card-header,.card-body{
+  width: 95%;
+  border: lightgray 1px solid;
+}
+
+.card{
+  height: 100%;
+}
+
+.mat-form-field{
+  width: 90%;
+}

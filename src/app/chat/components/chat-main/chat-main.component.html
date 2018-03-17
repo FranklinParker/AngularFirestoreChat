@@ -1,29 +1,8 @@
-<div class="card m-2" fxLayout="column" fxLayoutAlign="center center">
-  <div class="card-header m-1">
-    <h5 class="text-center">Chat Main</h5>
-  </div>
-  <div class="card-body m-1">
-    <p class="text-center">body</p>
-    <div class="row">
-      <mat-form-field>
-      <textarea matInput
-                [(ngModel)]="chatMessages"
-                placeholder="Autosize textarea"
-                matTextareaAutosize
-                matAutosizeMinRows="5"
-                matAutosizeMaxRows="10">
-
-      </textarea>
-      </mat-form-field>
-    </div>
-    <div class="row">
-      <mat-form-field>
-        <input matInput
-               [(ngModel)]="chatMessage"
-               type="text"
-               placeholder="Enter Message"
-               (keyup)="onMessageKey($event)">
-      </mat-form-field>
-    </div>
-  </div>
-</div>
+<mat-tab-group>
+  <mat-tab label="Chat Rooms">
+    <app-chat-room></app-chat-room>
+  </mat-tab>
+  <mat-tab label="Chat Room Add/Edit">
+    <app-chat-room-add-edit></app-chat-room-add-edit>
+  </mat-tab>
+</mat-tab-group>
