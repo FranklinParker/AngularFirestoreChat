@@ -9,7 +9,6 @@ import { Action } from '@ngrx/store';
 export class SetUser implements Action {
   readonly type = SET_USER;
   constructor(public payload: UserModel) {
-    console.log('payload', payload);
   }
 
 }
