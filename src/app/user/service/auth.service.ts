@@ -7,6 +7,7 @@ import * as fromRoot from '../../app.reducer';
 import * as Auth from '../auth.actions';
 import {Router} from '@angular/router';
 import {AngularFirestore} from 'angularfire2/firestore';
+import {SetUser} from '../user.actions';
 
 @Injectable()
 export class AuthService {
@@ -73,6 +74,10 @@ export class AuthService {
         name: user.name
       })
       .then((result) => {
+        this.store.dispatch(new SetUser({
+          email: user.email,
+          name: user.name
+        }));
 
       })
       .catch((err) =>

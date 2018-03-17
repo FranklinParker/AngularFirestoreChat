@@ -6,7 +6,8 @@
     </button>
   </div>
   <div>
-    <h4>Chat</h4>
+    <h4 *ngIf="user$ | async">Welcome to Chat - {{(user$ |async).name}}</h4>
+    <h4 *ngIf="!(user$ | async)">Chat</h4>
   </div>
   <div fxFlex fxLayout fxLayoutAlign="flex-end" fxHide.xs>
     <ul fxLayout fxLayoutGap="10px" class="navigation-list-items">
