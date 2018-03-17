@@ -9,6 +9,7 @@ import {Router} from '@angular/router';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {SetUser, UnsetUser} from '../user.actions';
 import {Subscription} from 'rxjs/Subscription';
+import {ChatService} from '../../chat/services/chat.service';
 
 @Injectable()
 export class AuthService {
@@ -18,7 +19,8 @@ export class AuthService {
               private db: AngularFirestore,
               private uiService: UiService,
               private store: Store<fromRoot.State>,
-              private router: Router) {
+              private router: Router,
+              private chatService: ChatService) {
   }
 
   initAuthListener() {
@@ -28,6 +30,7 @@ export class AuthService {
         this.router.navigate(['/chat']);
       } else {
         //this.trainingService.cancelSubscriptions();
+        this.chatService.unsubScribe();
         this.cancelSubscription();
         this.store.dispatch(new Auth.SetUnauthenticated());
         this.store.dispatch(new UnsetUser());
