@@ -1,6 +1,8 @@
 <div class="row m-1">
   <div class="col-3">
-    <div class="card card-body"></div>
+    <div class="card card-body">
+
+    </div>
   </div>
   <div class="col-9">
     <div class="card m-2" fxLayout="column" fxLayoutAlign="center center">
@@ -8,17 +10,16 @@
         <h5 class="text-center">Chat Main</h5>
       </div>
       <div class="card-body m-1">
-        <p class="text-center">body</p>
         <div class="row">
           <mat-form-field>
-      <textarea matInput
+            <textarea matInput
+                      readonly
                 [(ngModel)]="chatMessages"
-                placeholder="Autosize textarea"
                 matTextareaAutosize
-                matAutosizeMinRows="5"
-                matAutosizeMaxRows="10">
+                matAutosizeMinRows="10"
+                matAutosizeMaxRows="15">
 
-      </textarea>
+            </textarea>
           </mat-form-field>
         </div>
         <div class="row">
