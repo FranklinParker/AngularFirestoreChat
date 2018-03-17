@@ -16,6 +16,7 @@ import {AngularFirestoreModule} from 'angularfire2/firestore';
 import {StoreModule} from '@ngrx/store';
 import { reducers } from './app.reducer';
 import {ChatModule} from './chat/chat.module';
+import {ChatService} from './chat/services/chat.service';
 
 
 @NgModule({
@@ -36,7 +37,9 @@ import {ChatModule} from './chat/chat.module';
     AngularFirestoreModule,
     StoreModule.forRoot(reducers)
   ],
-  providers: [],
+  providers: [
+    ChatService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
