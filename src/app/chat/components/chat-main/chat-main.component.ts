@@ -21,7 +21,6 @@ export class ChatMainComponent implements OnInit {
   ngOnInit() {
     this.chatRooms$ = this.store.select(fromRoot.getChatRooms);
     this.chatService.getChatRooms();
-
   }
 
 }
