@@ -12,7 +12,6 @@ import {ChatRoomModel} from '../../chat-room.model';
 })
 export class ChatRoomComponent implements OnInit {
   chatMessages = '';
-
   chatMessage: string;
   chatRooms$: Observable<ChatRoomModel[]>;
 
@@ -23,7 +22,7 @@ export class ChatRoomComponent implements OnInit {
     this.chatRooms$ = this.store.select(fromRoot.getChatRooms);
     this.chatRooms$
       .subscribe((chatRooms: ChatRoomModel[]) => {
-        console.log('chatRooms:', chatRooms);
+        console.log('chatRooms room:', chatRooms);
       });
 
   }

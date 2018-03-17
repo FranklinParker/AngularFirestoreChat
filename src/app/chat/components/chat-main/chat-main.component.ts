@@ -12,29 +12,15 @@ import {Store} from '@ngrx/store';
   styleUrls: ['./chat-main.component.css']
 })
 export class ChatMainComponent implements OnInit {
-  chatMessages = '';
-  chatMessage: string;
-  chatRooms$: Observable<ChatRoomModel[]>;
 
+  chatRooms$: Observable<ChatRoomModel[]>;
   constructor(private chatService: ChatService,
               private store: Store<fromRoot.State>) {
   }
 
   ngOnInit() {
     this.chatRooms$ = this.store.select(fromRoot.getChatRooms);
-    this.chatRooms$
-      .subscribe((chatRooms: ChatRoomModel[]) => {
-        console.log('chatRooms:', chatRooms);
-      });
     this.chatService.getChatRooms();
-
-  }
-
-  onMessageKey(evt$) {
-    if (evt$.keyCode === 13) {
-      this.chatMessages += '\n' + this.chatMessage;
-      this.chatMessage = '';
-    }
 
   }
 
