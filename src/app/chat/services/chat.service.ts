@@ -3,16 +3,24 @@ import {AngularFirestore} from 'angularfire2/firestore';
 import {Subscription} from 'rxjs/Subscription';
 import {UiService} from '../../shared/service/ui.service';
 import {ChatRoomModel} from '../chat-room.model';
+import * as fromRoot from '../../app.reducer';
+import {SetChatRooms} from '../chat.actions';
+import {Store} from '@ngrx/store';
 
 @Injectable()
 export class ChatService {
   fbSubs: Subscription[] = [];
 
   constructor(private db: AngularFirestore,
-              private uiService: UiService) {
+              private uiService: UiService,
+              private store: Store<fromRoot.State>) {
 
   }
 
+  /**
+   * loads chat rooms
+   *
+   */
   getChatRooms() {
     this.fbSubs.push(
       this.db.collection('chatRooms')
@@ -28,7 +36,9 @@ export class ChatService {
         })
         .subscribe(
           (chatRooms: ChatRoomModel[]) => {
-            console.log('chat rooms', chatRooms);
+            console.log(' service chat rooms', chatRooms);
+            this.store.dispatch(new SetChatRooms(chatRooms));
+
           },
           error => {
             this.uiService.showSnackbar(
