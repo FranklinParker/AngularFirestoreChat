@@ -1,17 +1,16 @@
-<div class="container">
-  <div class="row">
-    <div class="col-3">
-      <div class="card card-body"></div>
-    </div>
-    <div class="col-9">
-      <div class="card m-2" fxLayout="column" fxLayoutAlign="center center">
-        <div class="card-header m-1">
-          <h5 class="text-center">Chat Main</h5>
-        </div>
-        <div class="card-body m-1">
-          <p class="text-center">body</p>
-          <div class="row">
-            <mat-form-field>
+<div class="row m-1">
+  <div class="col-3">
+    <div class="card card-body"></div>
+  </div>
+  <div class="col-9">
+    <div class="card m-2" fxLayout="column" fxLayoutAlign="center center">
+      <div class="card-header m-1">
+        <h5 class="text-center">Chat Main</h5>
+      </div>
+      <div class="card-body m-1">
+        <p class="text-center">body</p>
+        <div class="row">
+          <mat-form-field>
       <textarea matInput
                 [(ngModel)]="chatMessages"
                 placeholder="Autosize textarea"
@@ -20,20 +19,18 @@
                 matAutosizeMaxRows="10">
 
       </textarea>
-            </mat-form-field>
-          </div>
-          <div class="row">
-            <mat-form-field>
-              <input matInput
-                     [(ngModel)]="chatMessage"
-                     type="text"
-                     placeholder="Enter Message"
-                     (keyup)="onMessageKey($event)">
-            </mat-form-field>
-          </div>
+          </mat-form-field>
+        </div>
+        <div class="row">
+          <mat-form-field>
+            <input matInput
+                   [(ngModel)]="chatMessage"
+                   type="text"
+                   placeholder="Enter Message"
+                   (keyup)="onMessageKey($event)">
+          </mat-form-field>
         </div>
       </div>
-
     </div>
   </div>
 </div>
