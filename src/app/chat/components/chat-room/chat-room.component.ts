@@ -6,7 +6,7 @@ import {ChatRoomModel} from '../../chat-room.model';
 import {Subscription} from 'rxjs/Subscription';
 import {UserModel} from '../../../user/user-model';
 import {ChatService} from '../../services/chat.service';
-import {ChatMessageModel} from '../../../chat-message.model';
+import {ChatMessageModel} from '../../chat-message.model';
 
 @Component({
   selector: 'app-chat-room',

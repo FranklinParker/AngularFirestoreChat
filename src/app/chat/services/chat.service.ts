@@ -7,7 +7,7 @@ import * as fromRoot from '../../app.reducer';
 import {SetChatRooms} from '../chat.actions';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';
-import {ChatMessageModel} from '../../chat-message.model';
+import {ChatMessageModel} from '../chat-message.model';
 
 @Injectable()
 export class ChatService {
@@ -65,7 +65,8 @@ export class ChatService {
    */
   getChatRoomMessages(chatRoom: ChatRoomModel): Observable<ChatMessageModel[]> {
     return this.db
-      .collection('chatRooms/' + chatRoom.id + '/messages')
+      .collection('chatRooms/' + chatRoom.id + '/messages',
+        ref => ref.orderBy('date'))
       .snapshotChanges()
       .map(docArray => {
         // throw(new Error());
@@ -73,7 +74,8 @@ export class ChatService {
           return {
             id: doc.payload.doc.id,
             name: doc.payload.doc.data().name,
-            message: doc.payload.doc.data().message
+            message: doc.payload.doc.data().message,
+            date:  doc.payload.doc.data().date
 
           };
         });
@@ -89,10 +91,12 @@ export class ChatService {
    */
   sendMessage(chatRoom: ChatRoomModel, message: string, senderName: string) {
     return this.db
-      .collection('chatRooms/' + chatRoom.id + '/messages')
+      .collection('chatRooms/' + chatRoom.id + '/messages'
+        ,)
       .add({
         name: senderName,
-        message: message
+        message: message,
+        date: new Date()
       });
 
   }
