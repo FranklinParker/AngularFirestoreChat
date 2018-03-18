@@ -73,7 +73,7 @@ export class ChatService {
           return {
             id: doc.payload.doc.id,
             name: doc.payload.doc.data().name,
-            message: doc.payload.doc.data().name
+            message: doc.payload.doc.data().message
 
           };
         });

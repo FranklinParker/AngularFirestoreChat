@@ -45,13 +45,17 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
   /**
    * New chat room selected
    *
+   *
    */
   onSelectChatRoom(chatRoom: ChatRoomModel) {
-    console.log('new chatRoom', chatRoom);
     if (chatRoom) {
       this.chatMessageSub = this.chatService.getChatRoomMessages(chatRoom)
         .subscribe((chatMessages: ChatMessageModel[]) => {
-          console.log('chatMessages ', chatMessages);
+          this.chatMessages = '';
+          chatMessages.forEach((chatMessage: ChatMessageModel) => {
+            this.chatMessages += '\n' + chatMessage.name + ': '
+              + chatMessage.message;
+          });
         });
     }
 
