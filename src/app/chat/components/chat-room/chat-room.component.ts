@@ -43,8 +43,8 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
    * New chat room selected
    *
    */
-  onSelectChatRoom() {
-    console.log('new chatRoom', this.selectedChatRoom);
+  onSelectChatRoom(chatRoom: ChatRoomModel) {
+    console.log('new chatRoom', chatRoom);
   }
 
   onMessageKey(evt$) {

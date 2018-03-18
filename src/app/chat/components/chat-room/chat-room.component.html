@@ -5,9 +5,11 @@
         <mat-select placeholder="Select Chat Room"
                     [(ngModel)]="selectedChatRoom"
                     name="chatRoomSelect">
-            <mat-option>None</mat-option>
+            <mat-option (click)="onSelectChatRoom()">
+              None</mat-option>
             <mat-option *ngFor="let chatRoom of  chatRooms$| async"
-                        [value]="chatRoom" (onSelectionChange)="onSelectChatRoom()">
+                        [value]="chatRoom"
+                        (click)="onSelectChatRoom(chatRoom)">
               {{ chatRoom.name }}
             </mat-option>
         </mat-select>
