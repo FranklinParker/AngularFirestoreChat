@@ -1,10 +1,8 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import * as fromRoot from '../../../app.reducer';
 import {Store} from '@ngrx/store';
-import {ChatService} from '../../services/chat.service';
 import {Observable} from 'rxjs/Observable';
 import {ChatRoomModel} from '../../chat-room.model';
-import {MatSelectModule} from '@angular/material';
 import {Subscription} from 'rxjs/Subscription';
 import {UserModel} from '../../../user/user-model';
 

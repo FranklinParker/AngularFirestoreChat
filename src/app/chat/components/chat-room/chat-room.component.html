@@ -36,9 +36,10 @@
         <div class="row">
           <mat-form-field>
             <input matInput
+                   [disabled]="!selectedChatRoom"
                    [(ngModel)]="chatMessage"
                    type="text"
-                   placeholder="Enter Message"
+                   placeholder="Enter Message <Return Key>"
                    (keyup)="onMessageKey($event)">
           </mat-form-field>
         </div>
