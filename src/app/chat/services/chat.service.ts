@@ -6,6 +6,8 @@ import {ChatRoomModel} from '../chat-room.model';
 import * as fromRoot from '../../app.reducer';
 import {SetChatRooms} from '../chat.actions';
 import {Store} from '@ngrx/store';
+import {Observable} from 'rxjs/Observable';
+import {ChatMessageModel} from '../../chat-message.model';
 
 @Injectable()
 export class ChatService {
@@ -40,7 +42,6 @@ export class ChatService {
         })
         .subscribe(
           (chatRooms: ChatRoomModel[]) => {
-            console.log(' service chat rooms', chatRooms);
             this.store.dispatch(new SetChatRooms(chatRooms));
 
           },
@@ -53,6 +54,47 @@ export class ChatService {
           }
         )
     );
+  }
+
+  /**
+   *
+   *
+   *
+   * @param {ChatRoomModel} chatRoom
+   * @returns {Observable<any>}
+   */
+  getChatRoomMessages(chatRoom: ChatRoomModel): Observable<ChatMessageModel[]> {
+    return this.db
+      .collection('chatRooms/' + chatRoom.id + '/messages')
+      .snapshotChanges()
+      .map(docArray => {
+        // throw(new Error());
+        return docArray.map(doc => {
+          return {
+            id: doc.payload.doc.id,
+            name: doc.payload.doc.data().name,
+            message: doc.payload.doc.data().name
+
+          };
+        });
+      });
+  }
+
+  /**
+   * send a message to a chatRoom
+   *
+   *
+   * @param {ChatRoomModel} chatRoom
+   * @param {ChatMessageModel} chatMessage
+   */
+  sendMessage(chatRoom: ChatRoomModel, message: string, senderName: string) {
+    return this.db
+      .collection('chatRooms/' + chatRoom.id + '/messages')
+      .add({
+        name: senderName,
+        message: message
+      });
+
   }
 
   unsubScribe() {
