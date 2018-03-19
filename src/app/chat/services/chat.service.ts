@@ -113,11 +113,7 @@ export class ChatService {
    * @param {UserModel} user
    */
   addLoggedInUser(chatRoom: ChatRoomModel, user: UserModel) {
-    chatRoom.loggedInMembers.push({
-      name: user.name,
-      email: user.email
-    });
-    this.db.collection('chatRooms/' + chatRoom.id+ '/loggedInUsers')
+    this.db.collection('chatRooms/' + chatRoom.id + '/loggedInUsers')
       .add({
         name: user.name,
         email: user.email
