@@ -1,4 +1,4 @@
-import {ChatRoomModel} from './chat-room.model';
+import {ChatRoomModel} from './models/chat-room.model';
 
 export const SET_CHAT_ROOMS = '[CHAT] Set Chat rooms';
 export const UNSET_CHAT_ROOMS = '[AUTH] UnSet Chat Rooms';

@@ -4,7 +4,7 @@ import {
   UNSET_CHAT_ROOMS
 }
 from './chat.actions';
-import {ChatRoomModel} from './chat-room.model';
+import {ChatRoomModel} from './models/chat-room.model';
 
 export interface State {
   chatRooms: ChatRoomModel[];

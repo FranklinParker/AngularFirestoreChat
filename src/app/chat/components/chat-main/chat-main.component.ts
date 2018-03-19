@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ChatService} from '../../services/chat.service';
 import {Observable} from 'rxjs/Observable';
-import {ChatRoomModel} from '../../chat-room.model';
+import {ChatRoomModel} from '../../models/chat-room.model';
 import * as fromRoot from '../../../app.reducer';
 import {Store} from '@ngrx/store';
 

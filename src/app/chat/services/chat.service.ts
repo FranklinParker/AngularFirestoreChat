@@ -2,12 +2,13 @@ import {Injectable} from '@angular/core';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {Subscription} from 'rxjs/Subscription';
 import {UiService} from '../../shared/service/ui.service';
-import {ChatRoomModel} from '../chat-room.model';
+import {ChatRoomModel} from '../models/chat-room.model';
 import * as fromRoot from '../../app.reducer';
 import {SetChatRooms} from '../chat.actions';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';
-import {ChatMessageModel} from '../chat-message.model';
+import {ChatMessageModel} from '../models/chat-message.model';
+import {UserModel} from '../../user/user-model';
 
 @Injectable()
 export class ChatService {
@@ -30,13 +31,18 @@ export class ChatService {
         .map(docArray => {
           // throw(new Error());
           return docArray.map(doc => {
+            const chatRoom = doc.payload.doc.data();
+
             return {
               id: doc.payload.doc.id,
-              name: doc.payload.doc.data().name,
+              name: chatRoom.name,
               owner: {
-                name: doc.payload.doc.data().owner.name,
-                email: doc.payload.doc.data().owner.email
-              }
+                name: chatRoom.owner.name,
+                email: chatRoom.owner.email
+              },
+              loggedInMembers:
+                chatRoom.loggedInMembers ? chatRoom.loggedInMembers : []
+
             };
           });
         })
@@ -75,7 +81,7 @@ export class ChatService {
             id: doc.payload.doc.id,
             name: doc.payload.doc.data().name,
             message: doc.payload.doc.data().message,
-            date:  doc.payload.doc.data().date
+            date: doc.payload.doc.data().date
 
           };
         });
@@ -91,13 +97,30 @@ export class ChatService {
    */
   sendMessage(chatRoom: ChatRoomModel, message: string, senderName: string) {
     return this.db
-      .collection('chatRooms/' + chatRoom.id + '/messages'
-        ,)
+      .collection('chatRooms/' + chatRoom.id + '/messages')
       .add({
         name: senderName,
         message: message,
         date: new Date()
       });
+
+  }
+
+  /**
+   * add logged in member
+   *
+   * @param {ChatRoomModel} chatRoom
+   * @param {UserModel} user
+   */
+  addLoggedInUser(chatRoom: ChatRoomModel, user: UserModel ) {
+    chatRoom.loggedInMembers.push({
+      name: user.name,
+      email: user.email
+    })
+    this.db.doc('chatRooms/' + chatRoom.id).update({
+      loggedInMembers: chatRoom.loggedInMembers
+    });
+
 
   }
 

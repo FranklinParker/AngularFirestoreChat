@@ -2,11 +2,11 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import * as fromRoot from '../../../app.reducer';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';
-import {ChatRoomModel} from '../../chat-room.model';
+import {ChatRoomModel} from '../../models/chat-room.model';
 import {Subscription} from 'rxjs/Subscription';
 import {UserModel} from '../../../user/user-model';
 import {ChatService} from '../../services/chat.service';
-import {ChatMessageModel} from '../../chat-message.model';
+import {ChatMessageModel} from '../../models/chat-message.model';
 
 @Component({
   selector: 'app-chat-room',
@@ -49,6 +49,10 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
    */
   onSelectChatRoom(chatRoom: ChatRoomModel) {
     if (chatRoom) {
+      console.log('chatRoom',
+        chatRoom);
+      this.chatService.addLoggedInUser(chatRoom,
+          this.user);
       this.chatMessageSub = this.chatService.getChatRoomMessages(chatRoom)
         .subscribe((chatMessages: ChatMessageModel[]) => {
           this.chatMessages = '';
