@@ -117,10 +117,11 @@ export class ChatService {
       name: user.name,
       email: user.email
     });
-    this.db.doc('chatRooms/' + chatRoom.id).update({
-      loggedInMembers: chatRoom.loggedInMembers
-    })
-      .then((result) => {
+    this.db.collection('chatRooms/' + chatRoom.id+ '/loggedInUsers')
+      .add({
+        name: user.name,
+        email: user.email
+      }).then((result) => {
         this.store.dispatch(new SelectedChatRoomChange(chatRoom));
       });
 
