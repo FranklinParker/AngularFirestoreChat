@@ -7,7 +7,7 @@
                     name="chatRoomSelect">
             <mat-option (click)="onSelectChatRoom()">
               None</mat-option>
-            <mat-option *ngFor="let chatRoom of  chatRooms$| async"
+            <mat-option *ngFor="let chatRoom of chatRooms$| async"
                         [value]="chatRoom"
                         (click)="onSelectChatRoom(chatRoom)">
               {{ chatRoom.name }}

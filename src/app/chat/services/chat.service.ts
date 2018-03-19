@@ -4,7 +4,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {UiService} from '../../shared/service/ui.service';
 import {ChatRoomModel} from '../models/chat-room.model';
 import * as fromRoot from '../../app.reducer';
-import {SetChatRooms} from '../chat.actions';
+import {SetChatRooms, SelectedChatRoomChange} from '../chat.actions';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';
 import {ChatMessageModel} from '../models/chat-message.model';
@@ -112,14 +112,17 @@ export class ChatService {
    * @param {ChatRoomModel} chatRoom
    * @param {UserModel} user
    */
-  addLoggedInUser(chatRoom: ChatRoomModel, user: UserModel ) {
+  addLoggedInUser(chatRoom: ChatRoomModel, user: UserModel) {
     chatRoom.loggedInMembers.push({
       name: user.name,
       email: user.email
-    })
+    });
     this.db.doc('chatRooms/' + chatRoom.id).update({
       loggedInMembers: chatRoom.loggedInMembers
-    });
+    })
+      .then((result) => {
+        this.store.dispatch(new SelectedChatRoomChange(chatRoom));
+      });
 
 
   }

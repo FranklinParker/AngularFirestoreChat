@@ -1,7 +1,8 @@
 import {ChatRoomModel} from './models/chat-room.model';
 
 export const SET_CHAT_ROOMS = '[CHAT] Set Chat rooms';
-export const UNSET_CHAT_ROOMS = '[AUTH] UnSet Chat Rooms';
+export const SELECTED_CHATROOM_CHANGED = '[CHAT] Selected Chat room change';
+export const UNSET_CHAT_ROOMS = '[CHAT] UnSet Chat Rooms';
 
 import {Action} from '@ngrx/store';
 
@@ -18,4 +19,12 @@ export class UnsetChatRooms implements Action {
   readonly type = UNSET_CHAT_ROOMS;
 }
 
-export type ChatActions = SetChatRooms | UnsetChatRooms;
+export class SelectedChatRoomChange implements Action {
+  readonly type = SELECTED_CHATROOM_CHANGED;
+
+  constructor(public payload: ChatRoomModel) {
+  }
+
+}
+
+export type ChatActions = SetChatRooms | UnsetChatRooms | SelectedChatRoomChange;

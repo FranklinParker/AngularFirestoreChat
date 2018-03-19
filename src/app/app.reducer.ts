@@ -11,7 +11,7 @@ export interface State {
   chat: fromChat.State;
 }
 
-export const reducers: ActionReducerMap<State> = {
+export const reducers:  ActionReducerMap<State> = {
   auth: fromAuth.authReducer,
   user: fromUser.userReducer,
   chat: fromChat.chatReducer
@@ -26,6 +26,8 @@ export const getUser = createSelector(getUserState, fromUser.getUser);
 
 export const getChatState = createFeatureSelector<fromChat.State>('chat');
 export const getChatRooms = createSelector( getChatState , fromChat.getChatRooms);
+export const getSelectedChatRoom = createSelector( getChatState , fromChat.getSelectedChatRoom);
+
 
 
 
