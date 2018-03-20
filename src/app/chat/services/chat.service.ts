@@ -112,9 +112,12 @@ export class ChatService {
       .subscribe((currChatRoom: ChatRoomModel) => {
         if (currChatRoom) {
           this.db.collection('chatRooms/' + currChatRoom.id +
-            '/loggedInUsers').doc(currChatRoom.loggedInUserId).delete()
+            '/loggedInUsers').doc(currChatRoom.loggedInUserId ).delete()
             .then(() => {
+             // return this.store.dispatch(new SetSelectedChatRoomNull());
             });
+        } else {
+          //return this.store.dispatch(new SetSelectedChatRoomNull());
         }
       });
   }

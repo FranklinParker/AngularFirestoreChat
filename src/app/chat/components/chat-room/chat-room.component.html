@@ -3,6 +3,7 @@
     <div class="card card-body">
       <mat-form-field *ngIf="chatRooms$ | async">
         <mat-select placeholder="Select Chat Room"
+                    [(ngModel)]="selectedChatRoom"
                     name="chatRoomSelect">
             <mat-option (click)="onSelectRoomToNone()">
               None</mat-option>
