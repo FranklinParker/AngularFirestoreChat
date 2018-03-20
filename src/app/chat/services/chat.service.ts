@@ -32,17 +32,13 @@ export class ChatService {
           // throw(new Error());
           return docArray.map(doc => {
             const chatRoom = doc.payload.doc.data();
-
             return {
               id: doc.payload.doc.id,
               name: chatRoom.name,
               owner: {
                 name: chatRoom.owner.name,
                 email: chatRoom.owner.email
-              },
-              loggedInMembers:
-                chatRoom.loggedInMembers ? chatRoom.loggedInMembers : []
-
+              }
             };
           });
         })
@@ -63,7 +59,7 @@ export class ChatService {
   }
 
   /**
-   *
+   * get all the messages for a chat room
    *
    *
    * @param {ChatRoomModel} chatRoom
@@ -112,16 +108,42 @@ export class ChatService {
    * @param {ChatRoomModel} chatRoom
    * @param {UserModel} user
    */
-  addLoggedInUser(chatRoom: ChatRoomModel, user: UserModel) {
+  resetLoggedInChatRoom(newChatRoom: ChatRoomModel, user: UserModel) {
+    this.store.select(fromRoot.getSelectedChatRoom)
+      .subscribe((currChatRoom: ChatRoomModel) => {
+        if (currChatRoom) {
+          this.db.doc('chatRooms/' + currChatRoom.id +
+            '/loggedInUsers/' + currChatRoom.loggedInUserId).delete();
+        }
+        this.addUserToChatRoom(newChatRoom, user);
+      });
+  }
+
+  /**
+   * Add user to chat room
+   *
+   *
+   * @param {ChatRoomModel} chatRoom
+   * @param {UserModel} user
+   */
+
+  private addUserToChatRoom(chatRoom: ChatRoomModel, user: UserModel) {
+    console.log('addUserToChatRoom chatRoom:', chatRoom);
+    console.log('addUserToChatRoom user:', user);
+
+    if (!chatRoom) {
+      this.store.dispatch(new SelectedChatRoomChange(null));
+      return;
+    }
     this.db.collection('chatRooms/' + chatRoom.id + '/loggedInUsers')
       .add({
         name: user.name,
         email: user.email
       }).then((result) => {
-        this.store.dispatch(new SelectedChatRoomChange(chatRoom));
-      });
-
-
+      console.log('result ', result.id);
+      chatRoom.loggedInUserId = result.id;
+      this.store.dispatch(new SelectedChatRoomChange(chatRoom));
+    });
   }
 
   unsubScribe() {

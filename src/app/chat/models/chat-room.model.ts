@@ -5,5 +5,5 @@ export interface ChatRoomModel {
   id: string;
   name: string;
   owner: ChatRoomOwnerModel;
-  loggedInMembers: LoggedInMember[];
+  loggedInUserId?: string;
 }

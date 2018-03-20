@@ -28,9 +28,9 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.chatRooms$ = this.store.select(fromRoot.getChatRooms);
-    this.chatRooms$.subscribe((chatRooms: ChatRoomModel[])=>{
+    this.chatRooms$.subscribe((chatRooms: ChatRoomModel[]) => {
       console.log('chatRooms recv', chatRooms);
-    })
+    });
     this.store.select(fromRoot.getSelectedChatRoom)
       .subscribe((chatRoom: ChatRoomModel) => {
         this.getChatRoomMessages(chatRoom);
@@ -56,14 +56,17 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
    *
    */
   onSelectChatRoom(chatRoom: ChatRoomModel) {
-    if (chatRoom) {
-      this.chatService.addLoggedInUser(chatRoom,
-        this.user);
 
-    }
+    this.chatService.resetLoggedInChatRoom(chatRoom,
+      this.user);
 
   }
 
+  /**
+   * gets all messages for a chat room
+   *
+   * @param {ChatRoomModel} chatRoom
+   */
   getChatRoomMessages(chatRoom: ChatRoomModel) {
     if (chatRoom) {
       this.chatMessageSub = this.chatService.getChatRoomMessages(chatRoom)
