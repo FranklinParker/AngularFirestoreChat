@@ -4,7 +4,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {UiService} from '../../shared/service/ui.service';
 import {ChatRoomModel} from '../models/chat-room.model';
 import * as fromRoot from '../../app.reducer';
-import {SetChatRooms, SelectedChatRoomChange} from '../chat.actions';
+import {SetChatRooms, SelectedChatRoomChange, SetSelectedChatRoomNull} from '../chat.actions';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';
 import {ChatMessageModel} from '../models/chat-message.model';
@@ -103,32 +103,39 @@ export class ChatService {
   }
 
   /**
+   * set chat room to none
+   *
+   *
+   */
+  setChatRoomToNone() {
+    this.store.select(fromRoot.getSelectedChatRoom)
+      .subscribe((currChatRoom: ChatRoomModel) => {
+        if (currChatRoom) {
+          this.db.collection('chatRooms/' + currChatRoom.id +
+            '/loggedInUsers').doc(currChatRoom.loggedInUserId).delete()
+            .then(() => {
+            });
+        }
+      });
+  }
+
+  /**
    * add logged in member
    *
    * @param {ChatRoomModel} chatRoom
    * @param {UserModel} user
    */
   resetLoggedInChatRoom(newChatRoom: ChatRoomModel, user: UserModel) {
-    console.log('newChatRoom', newChatRoom);
     this.store.select(fromRoot.getSelectedChatRoom)
       .subscribe((currChatRoom: ChatRoomModel) => {
         if (currChatRoom) {
           this.db.doc('chatRooms/' + currChatRoom.id +
             '/loggedInUsers/' + currChatRoom.loggedInUserId).delete()
             .then(() => {
-              if (newChatRoom) {
-                this.addUserToChatRoom(newChatRoom, user);
-              } else {
-                return this.store.dispatch(new SelectedChatRoomChange(null));
-              }
+              this.addUserToChatRoom(newChatRoom, user);
             });
         } else {
-          if (newChatRoom) {
-            this.addUserToChatRoom(newChatRoom, user);
-          } else {
-            return this.store.dispatch(new SelectedChatRoomChange(null));
-          }
-
+          this.addUserToChatRoom(newChatRoom, user);
         }
       });
   }
@@ -142,8 +149,7 @@ export class ChatService {
    */
 
   private addUserToChatRoom(chatRoom: ChatRoomModel, user: UserModel) {
-    console.log('addUserToChatRoom chatRoom:', chatRoom);
-    console.log('addUserToChatRoom user:', user);
+
     this.db.collection('chatRooms/' + chatRoom.id + '/loggedInUsers')
       .add({
         name: user.name,

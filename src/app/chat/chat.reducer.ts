@@ -2,7 +2,8 @@ import {
   ChatActions,
   SET_CHAT_ROOMS,
   UNSET_CHAT_ROOMS,
-  SELECTED_CHATROOM_CHANGED
+  SELECTED_CHATROOM_CHANGED,
+  UNSET_SELECTED_CHATROOM
 } from './chat.actions';
 import {ChatRoomModel} from './models/chat-room.model';
 
@@ -34,6 +35,11 @@ export function chatReducer(state = initialState, action: ChatActions) {
       return {
         ...state,
         selectedChatRoom: action.payload
+      };
+    case UNSET_SELECTED_CHATROOM:
+      return {
+        ...state,
+        selectedChatRoom: null
       };
     default:
       return state;

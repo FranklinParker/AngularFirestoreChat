@@ -56,9 +56,19 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
    *
    */
   onSelectChatRoom(chatRoom: ChatRoomModel) {
-
+    console.log('selectedChatRoom:'+ chatRoom);
     this.chatService.resetLoggedInChatRoom(chatRoom,
       this.user);
+
+  }
+
+  /**
+   *
+   *
+   */
+  onSelectRoomToNone() {
+    this.chatService.setChatRoomToNone();
+    this.chatMessages = '';
 
   }
 
