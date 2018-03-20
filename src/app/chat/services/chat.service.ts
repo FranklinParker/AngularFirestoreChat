@@ -109,13 +109,27 @@ export class ChatService {
    * @param {UserModel} user
    */
   resetLoggedInChatRoom(newChatRoom: ChatRoomModel, user: UserModel) {
+    console.log('newChatRoom', newChatRoom);
     this.store.select(fromRoot.getSelectedChatRoom)
       .subscribe((currChatRoom: ChatRoomModel) => {
         if (currChatRoom) {
           this.db.doc('chatRooms/' + currChatRoom.id +
-            '/loggedInUsers/' + currChatRoom.loggedInUserId).delete();
+            '/loggedInUsers/' + currChatRoom.loggedInUserId).delete()
+            .then(() => {
+              if (newChatRoom) {
+                this.addUserToChatRoom(newChatRoom, user);
+              } else {
+                return this.store.dispatch(new SelectedChatRoomChange(null));
+              }
+            });
+        } else {
+          if (newChatRoom) {
+            this.addUserToChatRoom(newChatRoom, user);
+          } else {
+            return this.store.dispatch(new SelectedChatRoomChange(null));
+          }
+
         }
-        this.addUserToChatRoom(newChatRoom, user);
       });
   }
 
@@ -130,11 +144,6 @@ export class ChatService {
   private addUserToChatRoom(chatRoom: ChatRoomModel, user: UserModel) {
     console.log('addUserToChatRoom chatRoom:', chatRoom);
     console.log('addUserToChatRoom user:', user);
-
-    if (!chatRoom) {
-      this.store.dispatch(new SelectedChatRoomChange(null));
-      return;
-    }
     this.db.collection('chatRooms/' + chatRoom.id + '/loggedInUsers')
       .add({
         name: user.name,
@@ -144,6 +153,7 @@ export class ChatService {
       chatRoom.loggedInUserId = result.id;
       this.store.dispatch(new SelectedChatRoomChange(chatRoom));
     });
+
   }
 
   unsubScribe() {
