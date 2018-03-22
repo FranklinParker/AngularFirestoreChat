@@ -30,9 +30,6 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.chatRooms$ = this.store.select(fromRoot.getChatRooms);
-    this.chatRooms$.subscribe((chatRooms: ChatRoomModel[]) => {
-      console.log('chatRooms recv', chatRooms);
-    });
     this.userSub = this.store.select(fromRoot.getUser)
       .subscribe((user: UserModel) => {
         this.user = user;
@@ -42,7 +39,6 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.userSub.unsubscribe();
-    this.chatService.setChatRoomToNone();
     if (this.chatMessageSub) {
       this.chatMessageSub.unsubscribe();
     }
@@ -58,7 +54,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
       this.user)
       .then((newChatRoom: ChatRoomModel) => {
         this.getChatRoomMessages(newChatRoom);
-    }).catch((err) => {
+      }).catch((err) => {
       this.uiService.showSnackbar('Error Enter Chat Room',
         null, 6000);
     });
