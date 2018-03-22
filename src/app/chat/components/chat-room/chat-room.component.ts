@@ -8,6 +8,7 @@ import {UserModel} from '../../../user/user-model';
 import {ChatService} from '../../services/chat.service';
 import {ChatMessageModel} from '../../models/chat-message.model';
 import {UiService} from '../../../shared/service/ui.service';
+import {LoggedInMember} from '../../models/logged-in.member';
 
 @Component({
   selector: 'app-chat-room',
@@ -18,6 +19,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
   chatMessages = '';
   chatMessage: string;
   chatRooms$: Observable<ChatRoomModel[]>;
+  loggedInMembers$: Observable<LoggedInMember[]>;
   selectedChatRoom: ChatRoomModel;
   user: UserModel;
   userSub: Subscription;
@@ -30,6 +32,10 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.chatRooms$ = this.store.select(fromRoot.getChatRooms);
+    this.loggedInMembers$ = this.store.select(fromRoot.getLoggedInMembers);
+    this.loggedInMembers$.subscribe((logInMembers: LoggedInMember[]) => {
+      console.log('got logged in members', logInMembers);
+    });
     this.userSub = this.store.select(fromRoot.getUser)
       .subscribe((user: UserModel) => {
         this.user = user;

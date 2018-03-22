@@ -4,7 +4,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {UiService} from '../../shared/service/ui.service';
 import {ChatRoomModel} from '../models/chat-room.model';
 import * as fromRoot from '../../app.reducer';
-import {SetChatRooms} from '../chat.actions';
+import {SetChatRooms, SetLoggedInUsers} from '../chat.actions';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';
 import {ChatMessageModel} from '../models/chat-message.model';
@@ -174,6 +174,7 @@ export class ChatService {
         })
         .subscribe((logInMembers: LoggedInMember[]) => {
             console.log('got logged in users', logInMembers);
+            this.store.dispatch(new SetLoggedInUsers(logInMembers));
           }
         );
 
