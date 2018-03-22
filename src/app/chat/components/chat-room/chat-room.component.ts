@@ -53,6 +53,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
     this.chatService.joinChatRoom(chatRoom,
       this.user)
       .then((newChatRoom: ChatRoomModel) => {
+        this.chatService.getLoggedInUsersSubscription();
         this.getChatRoomMessages(newChatRoom);
       }).catch((err) => {
       this.uiService.showSnackbar('Error Enter Chat Room',

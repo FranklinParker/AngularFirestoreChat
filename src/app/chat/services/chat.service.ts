@@ -10,6 +10,7 @@ import {Observable} from 'rxjs/Observable';
 import {ChatMessageModel} from '../models/chat-message.model';
 import {UserModel} from '../../user/user-model';
 import {promise} from 'selenium-webdriver';
+import {LoggedInMember} from '../models/logged-in.member';
 
 @Injectable()
 export class ChatService {
@@ -148,6 +149,36 @@ export class ChatService {
     } else {
       return this.addUserToChatRoom(newChatRoom, user);
     }
+
+  }
+
+  /**
+   *
+   *
+   *
+   */
+  getLoggedInUsersSubscription() {
+    if (this.currentChatRoom) {
+      this.db.collection('chatRooms/' + this.currentChatRoom.id + '/loggedInUsers')
+        .snapshotChanges()
+        .map(docArray => {
+          // throw(new Error());
+          return docArray.map(doc => {
+            return {
+              id: doc.payload.doc.id,
+              name: doc.payload.doc.data().name,
+              email: doc.payload.doc.data().email
+
+            };
+          });
+        })
+        .subscribe((logInMembers: LoggedInMember[]) => {
+            console.log('got logged in users', logInMembers);
+          }
+        );
+
+    }
+
 
   }
 
