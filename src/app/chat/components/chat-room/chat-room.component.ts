@@ -7,6 +7,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {UserModel} from '../../../user/user-model';
 import {ChatService} from '../../services/chat.service';
 import {ChatMessageModel} from '../../models/chat-message.model';
+import {UiService} from '../../../shared/service/ui.service';
 
 @Component({
   selector: 'app-chat-room',
@@ -23,7 +24,8 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
   chatMessageSub: Subscription;
 
   constructor(private store: Store<fromRoot.State>,
-              private chatService: ChatService) {
+              private chatService: ChatService,
+              private uiService: UiService) {
   }
 
   ngOnInit() {
@@ -31,11 +33,6 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
     this.chatRooms$.subscribe((chatRooms: ChatRoomModel[]) => {
       console.log('chatRooms recv', chatRooms);
     });
-    this.store.select(fromRoot.getSelectedChatRoom)
-      .subscribe((chatRoom: ChatRoomModel) => {
-        this.getChatRoomMessages(chatRoom);
-
-      });
     this.userSub = this.store.select(fromRoot.getUser)
       .subscribe((user: UserModel) => {
         this.user = user;
@@ -45,6 +42,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.userSub.unsubscribe();
+    this.chatService.setChatRoomToNone();
     if (this.chatMessageSub) {
       this.chatMessageSub.unsubscribe();
     }
@@ -56,8 +54,14 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
    *
    */
   onSelectChatRoom(chatRoom: ChatRoomModel) {
-    this.chatService.resetLoggedInChatRoom(chatRoom,
-      this.user);
+    this.chatService.joinChatRoom(chatRoom,
+      this.user)
+      .then((newChatRoom: ChatRoomModel) => {
+        this.getChatRoomMessages(newChatRoom);
+    }).catch((err) => {
+      this.uiService.showSnackbar('Error Enter Chat Room',
+        null, 6000);
+    });
 
   }
 

@@ -29,7 +29,7 @@ export class AuthService {
         this.store.dispatch(new Auth.SetAuthenticated());
         this.router.navigate(['/chat']);
       } else {
-        this.chatService.unsubScribe();
+        this.chatService.unsubcribe();
         this.cancelSubscription();
         this.store.dispatch(new Auth.SetUnauthenticated());
         this.store.dispatch(new UnsetUser());
@@ -120,7 +120,14 @@ export class AuthService {
    *
    */
   logout() {
-    this.afAuth.auth.signOut();
+    this.chatService.setChatRoomToNone()
+      .then(() => this.afAuth.auth.signOut())
+      .catch(() => {
+        this.uiService.showSnackbar('Error removing From Chat Room',
+          null, 5000);
+        this.afAuth.auth.signOut();
+      });
+
   }
 
 }

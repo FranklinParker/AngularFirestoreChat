@@ -20,19 +20,6 @@ export class UnsetChatRooms implements Action {
   readonly type = UNSET_CHAT_ROOMS;
 }
 
-export class SelectedChatRoomChange implements Action {
-  readonly type = SELECTED_CHATROOM_CHANGED;
-
-  constructor(public payload: ChatRoomModel) {
-  }
-
-}
-
-export class SetSelectedChatRoomNull implements Action {
-  readonly type = UNSET_SELECTED_CHATROOM;
 
 
-}
-
-
-export type ChatActions = SetChatRooms | UnsetChatRooms | SelectedChatRoomChange | SetSelectedChatRoomNull;
+export type ChatActions = SetChatRooms | UnsetChatRooms;

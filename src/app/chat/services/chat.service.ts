@@ -4,15 +4,17 @@ import {Subscription} from 'rxjs/Subscription';
 import {UiService} from '../../shared/service/ui.service';
 import {ChatRoomModel} from '../models/chat-room.model';
 import * as fromRoot from '../../app.reducer';
-import {SetChatRooms, SelectedChatRoomChange, SetSelectedChatRoomNull} from '../chat.actions';
+import {SetChatRooms} from '../chat.actions';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';
 import {ChatMessageModel} from '../models/chat-message.model';
 import {UserModel} from '../../user/user-model';
+import {promise} from 'selenium-webdriver';
 
 @Injectable()
 export class ChatService {
   fbSubs: Subscription[] = [];
+  currentChatRoom: ChatRoomModel;
 
   constructor(private db: AngularFirestore,
               private uiService: UiService,
@@ -107,20 +109,24 @@ export class ChatService {
    *
    *
    */
-  setChatRoomToNone() {
-    this.store.select(fromRoot.getSelectedChatRoom)
-      .subscribe((currChatRoom: ChatRoomModel) => {
-        if (currChatRoom) {
-          this.db.collection('chatRooms/' + currChatRoom.id +
-            '/loggedInUsers').doc(currChatRoom.loggedInUserId ).delete()
-            .then(() => {
-             // return this.store.dispatch(new SetSelectedChatRoomNull());
-            });
-        } else {
-          //return this.store.dispatch(new SetSelectedChatRoomNull());
-        }
-      });
+  setChatRoomToNone(): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      if (this.currentChatRoom) {
+        this.db.collection('chatRooms/' + this.currentChatRoom.id +
+          '/loggedInUsers').doc(this.currentChatRoom.loggedInUserId).delete()
+          .then(() => {
+            this.currentChatRoom = null;
+            resolve('success');
+
+          }).catch(err => reject('err'));
+
+      } else {
+        this.currentChatRoom = null;
+        resolve('success');
+      }
+    });
   }
+
 
   /**
    * add logged in member
@@ -128,19 +134,21 @@ export class ChatService {
    * @param {ChatRoomModel} chatRoom
    * @param {UserModel} user
    */
-  resetLoggedInChatRoom(newChatRoom: ChatRoomModel, user: UserModel) {
-    this.store.select(fromRoot.getSelectedChatRoom)
-      .subscribe((currChatRoom: ChatRoomModel) => {
-        if (currChatRoom) {
-          this.db.doc('chatRooms/' + currChatRoom.id +
-            '/loggedInUsers/' + currChatRoom.loggedInUserId).delete()
-            .then(() => {
-              this.addUserToChatRoom(newChatRoom, user);
-            });
-        } else {
-          this.addUserToChatRoom(newChatRoom, user);
-        }
-      });
+  joinChatRoom(newChatRoom: ChatRoomModel, user: UserModel): Promise<ChatRoomModel> {
+    if (this.currentChatRoom) {
+      this.db.doc('chatRooms/' + this.currentChatRoom.id
+        + '/loggedInUsers/' +
+        this.currentChatRoom.loggedInUserId).delete()
+        .then(
+          (result) => {
+            return this.addUserToChatRoom(newChatRoom, user);
+          }
+        );
+
+    } else {
+      return this.addUserToChatRoom(newChatRoom, user);
+    }
+
   }
 
   /**
@@ -151,22 +159,32 @@ export class ChatService {
    * @param {UserModel} user
    */
 
-  private addUserToChatRoom(chatRoom: ChatRoomModel, user: UserModel) {
+  private addUserToChatRoom(chatRoom: ChatRoomModel, user: UserModel): Promise<ChatRoomModel> {
 
-    this.db.collection('chatRooms/' + chatRoom.id + '/loggedInUsers')
+    return this.db.collection('chatRooms/' + chatRoom.id + '/loggedInUsers')
       .add({
-        name: user.name,
-        email: user.email
-      }).then((result) => {
-      console.log('result ', result.id);
-      chatRoom.loggedInUserId = result.id;
-      this.store.dispatch(new SelectedChatRoomChange(chatRoom));
-    });
+          name: user.name,
+          email: user.email
+        }
+      ).then((result) => {
+        console.log('result ', result.id);
+        chatRoom.loggedInUserId = result.id;
+        this.currentChatRoom = chatRoom;
+        return this.currentChatRoom;
+      }).catch((reject) => {
+          return reject;
+        }
+      );
 
   }
 
-  unsubScribe() {
-    this.fbSubs.forEach((sub: Subscription) => sub.unsubscribe());
+  /**
+   * cleanup subscriptions
+   *
+   */
+  unsubcribe() {
+    this.fbSubs.forEach(
+      (sub: Subscription) => sub.unsubscribe());
   }
 
 

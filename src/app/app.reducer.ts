@@ -26,7 +26,6 @@ export const getUser = createSelector(getUserState, fromUser.getUser);
 
 export const getChatState = createFeatureSelector<fromChat.State>('chat');
 export const getChatRooms = createSelector( getChatState , fromChat.getChatRooms);
-export const getSelectedChatRoom = createSelector( getChatState , fromChat.getSelectedChatRoom);
 
 
 

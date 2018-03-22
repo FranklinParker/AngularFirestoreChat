@@ -1,22 +1,19 @@
 import {
   ChatActions,
   SET_CHAT_ROOMS,
-  UNSET_CHAT_ROOMS,
-  SELECTED_CHATROOM_CHANGED,
-  UNSET_SELECTED_CHATROOM
+  UNSET_CHAT_ROOMS
+
 } from './chat.actions';
 import {ChatRoomModel} from './models/chat-room.model';
 
 export interface State {
   chatRooms: ChatRoomModel[];
-  selectedChatRoom: ChatRoomModel;
 
 }
 
 
 const initialState: State = {
   chatRooms: [],
-  selectedChatRoom: null
 };
 
 export function chatReducer(state = initialState, action: ChatActions) {
@@ -31,23 +28,13 @@ export function chatReducer(state = initialState, action: ChatActions) {
         ...state,
         chatRooms: []
       };
-    case SELECTED_CHATROOM_CHANGED:
-      return {
-        ...state,
-        selectedChatRoom: action.payload
-      };
-    case UNSET_SELECTED_CHATROOM:
-      return {
-        ...state,
-        selectedChatRoom: null
-      };
+
     default:
       return state;
   }
 }
 
 export const getChatRooms = (state: State) => state.chatRooms;
-export const getSelectedChatRoom = (state: State) => state.selectedChatRoom;
 
 
 
