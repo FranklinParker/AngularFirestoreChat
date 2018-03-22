@@ -5,15 +5,21 @@
         <mat-select placeholder="Select Chat Room"
                     [(ngModel)]="selectedChatRoom"
                     name="chatRoomSelect">
-            <mat-option (click)="onSelectRoomToNone()">
-              None</mat-option>
-            <mat-option *ngFor="let chatRoom of chatRooms$| async"
-                        [value]="chatRoom"
-                        (click)="onSelectChatRoom(chatRoom)">
-              {{ chatRoom.name }}
-            </mat-option>
+          <mat-option (click)="onSelectRoomToNone()">
+            None
+          </mat-option>
+          <mat-option *ngFor="let chatRoom of chatRooms$| async"
+                      [value]="chatRoom"
+                      (click)="onSelectChatRoom(chatRoom)">
+            {{ chatRoom.name }}
+          </mat-option>
         </mat-select>
       </mat-form-field>
+      <mat-list *ngIf="loggedInMembers$ | async" role="list">
+        <mat-list-item  *ngFor="let loggedInMember of loggedInMembers$| async">
+          {{loggedInMember.name}}
+        </mat-list-item>
+      </mat-list>
     </div>
   </div>
   <div class="col-9">

@@ -33,9 +33,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.chatRooms$ = this.store.select(fromRoot.getChatRooms);
     this.loggedInMembers$ = this.store.select(fromRoot.getLoggedInMembers);
-    this.loggedInMembers$.subscribe((logInMembers: LoggedInMember[]) => {
-      console.log('got logged in members', logInMembers);
-    });
+   
     this.userSub = this.store.select(fromRoot.getUser)
       .subscribe((user: UserModel) => {
         this.user = user;
