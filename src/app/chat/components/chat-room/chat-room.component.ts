@@ -65,6 +65,10 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
 
   }
 
+  onSelectMember(loggedInMember: LoggedInMember) {
+    console.log('loggedInMember click', +loggedInMember);
+  }
+
   /**
    *
    *

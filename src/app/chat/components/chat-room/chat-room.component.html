@@ -16,7 +16,9 @@
         </mat-select>
       </mat-form-field>
       <mat-list *ngIf="(loggedInMembers$ | async) && selectedChatRoom" role="list">
-        <mat-list-item  *ngFor="let loggedInMember of loggedInMembers$| async">
+        <mat-list-item
+          *ngFor="let loggedInMember of loggedInMembers$| async"
+          (click)="onSelectMember(loggedInMember.name)">
           {{loggedInMember.name}}
         </mat-list-item>
       </mat-list>
