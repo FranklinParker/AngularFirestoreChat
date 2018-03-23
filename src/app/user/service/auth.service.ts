@@ -137,7 +137,6 @@ export class AuthService {
       ref => ref.where('name', '==', name))
       .valueChanges()
       .map((users) => {
-        console.log('users', users);
         return users;
       });
 
