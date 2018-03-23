@@ -30,13 +30,11 @@ export class AuthService {
     this.afAuth.authState.subscribe(user => {
       if (user) {
         this.store.dispatch(new Auth.SetAuthenticated());
-        this.router.navigate(['/chat']);
       } else {
         this.chatService.unsubcribe();
         this.cancelSubscription();
         this.store.dispatch(new Auth.SetUnauthenticated());
         this.store.dispatch(new UnsetUser());
-        this.router.navigate(['/login']);
       }
     });
   }
@@ -65,6 +63,8 @@ export class AuthService {
     this.afAuth.auth.signInWithEmailAndPassword(email, password)
       .then((resp) => {
         this.loadUser(email);
+        this.router.navigate(['/chat']);
+
       })
       .catch(err =>
         this.uiService.showSnackbar(err.message, null, 4000));
@@ -105,6 +105,7 @@ export class AuthService {
         if (users && users.length > 0) {
           this.uiService.showSnackbar('This User Name Already Exists, try another', null, 6000);
           this.afAuth.auth.currentUser.delete();
+
         } else {
           this.db.collection('users')
             .add({
@@ -116,6 +117,8 @@ export class AuthService {
                 email: user.email,
                 name: user.name
               }));
+              this.router.navigate(['/chat']);
+
 
             })
             .catch((err) =>
@@ -150,11 +153,18 @@ export class AuthService {
    */
   logout() {
     this.chatService.setChatRoomToNone()
-      .then(() => this.afAuth.auth.signOut())
+      .then(() => {
+        this.afAuth.auth.signOut();
+        this.router.navigate(['/login']);
+
+      })
       .catch(() => {
         this.uiService.showSnackbar('Error removing From Chat Room',
           null, 5000);
         this.afAuth.auth.signOut();
+        this.router.navigate(['/login']);
+
+
       });
 
   }
