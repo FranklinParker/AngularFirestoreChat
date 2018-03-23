@@ -11,7 +11,7 @@ import {SetUser, UnsetUser} from '../user.actions';
 import {Subscription} from 'rxjs/Subscription';
 import {ChatService} from '../../chat/services/chat.service';
 import {Observable} from 'rxjs/Observable';
-import { take } from 'rxjs/operators';
+import {take} from 'rxjs/operators';
 
 
 @Injectable()
@@ -167,6 +167,16 @@ export class AuthService {
 
       });
 
+  }
+
+  /**
+   *  Is the user logged in
+   *
+   *
+   * @returns {boolean}
+   */
+  isAuthenticated(): boolean {
+    return this.afAuth.auth.currentUser != null;
   }
 
 }
