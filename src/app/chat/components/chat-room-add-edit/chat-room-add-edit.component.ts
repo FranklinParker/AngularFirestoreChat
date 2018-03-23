@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {ChatRoomModel} from '../../models/chat-room.model';
 
 @Component({
   selector: 'app-chat-room-add-edit',
@@ -6,7 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./chat-room-add-edit.component.css']
 })
 export class ChatRoomAddEditComponent implements OnInit {
-
+  chatRoom: ChatRoomModel = {
+    name: ''
+  };
   constructor() { }
 
   ngOnInit() {

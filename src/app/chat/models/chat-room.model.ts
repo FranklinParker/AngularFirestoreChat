@@ -1,8 +1,8 @@
 import {ChatRoomOwnerModel} from './chat-room-owner.model';
 
 export interface ChatRoomModel {
-  id: string;
+  id?: string;
   name: string;
-  owner: ChatRoomOwnerModel;
+  owner?: ChatRoomOwnerModel;
   loggedInUserId?: string;
 }
