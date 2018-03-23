@@ -8,7 +8,7 @@ import {AuthService} from '../../service/auth.service';
   styleUrls: ['./registration.component.css']
 })
 export class RegistrationComponent implements OnInit {
-
+  allowOthersViewProfile = false;
 
   constructor(private authService: AuthService) {
   }
@@ -17,7 +17,6 @@ export class RegistrationComponent implements OnInit {
   }
 
   onSubmit(registrationForm: NgForm) {
-    console.log('regForm will reg??',  registrationForm.value);
     this.authService.registerUser(registrationForm.value);
 
   }

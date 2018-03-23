@@ -39,6 +39,11 @@
                required>
         <mat-error *ngIf="name.hasError('required')">Name is required</mat-error>
       </mat-form-field>
+        <mat-checkbox [(ngModel)]="allowOthersViewProfile"
+                      name="shareMyProfile">Allow Others to View Profile
+        </mat-checkbox>
+
+
       <button type="submit"
               mat-raised-button
               [disabled]="registrationForm.invalid">Submit

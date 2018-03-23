@@ -10,6 +10,9 @@ import {AngularFirestore} from 'angularfire2/firestore';
 import {SetUser, UnsetUser} from '../user.actions';
 import {Subscription} from 'rxjs/Subscription';
 import {ChatService} from '../../chat/services/chat.service';
+import {Observable} from 'rxjs/Observable';
+import { take } from 'rxjs/operators';
+
 
 @Injectable()
 export class AuthService {
@@ -96,23 +99,50 @@ export class AuthService {
    */
 
   private addUser(user: UserModel) {
-    this.db.collection('users')
-      .add({
-        email: user.email,
-        name: user.name
-      })
-      .then((result) => {
-        this.store.dispatch(new SetUser({
-          email: user.email,
-          name: user.name
-        }));
+    this.doesUserNameExist(user.name)
+      .pipe(take(1))
+      .subscribe((users) => {
+        if (users && users.length > 0) {
+          this.uiService.showSnackbar('This User Name Already Exists, try another', null, 6000);
+          this.afAuth.auth.currentUser.delete();
+        } else {
+          this.db.collection('users')
+            .add({
+              email: user.email,
+              name: user.name
+            })
+            .then((result) => {
+              this.store.dispatch(new SetUser({
+                email: user.email,
+                name: user.name
+              }));
 
-      })
-      .catch((err) =>
-        this.uiService.showSnackbar(err.message, null, 4000));
+            })
+            .catch((err) =>
+              this.uiService.showSnackbar(err.message, null, 4000));
+        }
+      });
 
 
   }
+
+  /**
+   * find user
+   *
+   * @param {string} email
+   * @returns {Promise<void>}
+   */
+  doesUserNameExist(name: string): Observable<any> {
+    return this.db.collection('users',
+      ref => ref.where('name', '==', name))
+      .valueChanges()
+      .map((users) => {
+        console.log('users', users);
+        return users;
+      });
+
+  }
+
 
   /**
    *

@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {
-  MatButtonModule, MatFormFieldModule,
+  MatButtonModule, MatCheckboxModule, MatFormFieldModule,
   MatIconModule,
   MatInputModule,
   MatListModule, MatSelectModule,
@@ -19,7 +19,8 @@ import {
     MatFormFieldModule,
     MatSnackBarModule,
     MatTabsModule,
-    MatSelectModule
+    MatSelectModule,
+    MatCheckboxModule
   ],
   exports: [
     MatListModule,
@@ -31,7 +32,8 @@ import {
     MatFormFieldModule,
     MatSnackBarModule,
     MatTabsModule,
-    MatSelectModule
+    MatSelectModule,
+    MatCheckboxModule
   ],
   declarations: []
 })
