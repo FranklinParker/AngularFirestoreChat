@@ -69,7 +69,7 @@ export class ChatService {
    */
   addChatRoom(newChatRoom: ChatRoomModel) {
     this.db.collection('chatRooms')
-      .add(newChatRoom).then((result)=> {
+      .add(newChatRoom).then((result) => {
       newChatRoom.id = result.id;
     });
   }
@@ -149,19 +149,28 @@ export class ChatService {
    * @param {UserModel} user
    */
   joinChatRoom(newChatRoom: ChatRoomModel, user: UserModel): Promise<ChatRoomModel> {
-    if (this.currentChatRoom) {
-      this.db.doc('chatRooms/' + this.currentChatRoom.id
-        + '/loggedInUsers/' +
-        this.currentChatRoom.loggedInUserId).delete()
-        .then(
-          (result) => {
-            return this.addUserToChatRoom(newChatRoom, user);
-          }
-        );
+    return new Promise((resolve, reject) => {
+      if (this.currentChatRoom) {
+        this.db.doc('chatRooms/' + this.currentChatRoom.id
+          + '/loggedInUsers/' +
+          this.currentChatRoom.loggedInUserId).delete()
+          .then(
+            (result) => {
+              this.addUserToChatRoom(newChatRoom, user)
+                .then((chatRoom: ChatRoomModel) => {
+                  resolve(newChatRoom);
+                }).catch(err => reject(err));
+            }
+          );
 
-    } else {
-      return this.addUserToChatRoom(newChatRoom, user);
-    }
+      } else {
+        this.addUserToChatRoom(newChatRoom, user)
+          .then((chatRoom: ChatRoomModel) => {
+            resolve(newChatRoom);
+          }).catch(err => reject(err));
+      }
+    });
+
 
   }
 
