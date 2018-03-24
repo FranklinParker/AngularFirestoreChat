@@ -21,7 +21,7 @@ export class ChatRoomAddEditComponent implements OnInit {
               private chatService: ChatService) {
   }
 
-  async ngOnInit() {
+  ngOnInit() {
     this.store.select(fromApp.getUser)
       .subscribe((user: UserModel) => {
         this.user = user;
