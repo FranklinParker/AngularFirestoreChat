@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ChatRoomModel} from '../../models/chat-room.model';
+import * as fromApp from '../../../app.reducer';
+import {Store} from '@ngrx/store';
+import {UserModel} from '../../../user/user-model';
+import {ChatService} from '../../services/chat.service';
 
 @Component({
   selector: 'app-chat-room-add-edit',
@@ -7,12 +11,30 @@ import {ChatRoomModel} from '../../models/chat-room.model';
   styleUrls: ['./chat-room-add-edit.component.css']
 })
 export class ChatRoomAddEditComponent implements OnInit {
+  user: UserModel;
   chatRoom: ChatRoomModel = {
-    name: ''
+    name: '',
+    isPrivate: false
   };
-  constructor() { }
 
-  ngOnInit() {
+  constructor(private store: Store<fromApp.State>,
+              private chatService: ChatService) {
+  }
+
+  async ngOnInit() {
+    this.store.select(fromApp.getUser)
+      .subscribe((user: UserModel) => {
+        this.user = user;
+      });
+  }
+
+  onSubmit() {
+    console.log('Chat room', this.chatRoom);
+    this.chatRoom.owner = {
+      name: this.user.name,
+      email: this.user.email
+    };
+    this.chatService.addChatRoom(this.chatRoom);
   }
 
 }

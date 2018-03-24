@@ -38,6 +38,7 @@ export class ChatService {
             return {
               id: doc.payload.doc.id,
               name: chatRoom.name,
+              isPrivate: chatRoom.isPrivate,
               owner: {
                 name: chatRoom.owner.name,
                 email: chatRoom.owner.email
@@ -59,6 +60,18 @@ export class ChatService {
           }
         )
     );
+  }
+
+  /**
+   * add a new Chat room
+   *
+   * @param {ChatRoomModel} newChatRoom
+   */
+  addChatRoom(newChatRoom: ChatRoomModel) {
+    this.db.collection('chatRooms')
+      .add(newChatRoom).then((result)=> {
+      newChatRoom.id = result.id;
+    });
   }
 
   /**

@@ -1,16 +1,29 @@
+<div class="card-body" fxLayoutAlign="center center">
+  <form (ngSubmit)="onSubmit()"
+        #chatForm="ngForm"
+        fxLayout="column"
+        fxLayoutAlign="center center"
+        fxLayoutGap="10px">
+    <mat-form-field>
+      <input
+        matInput
+        name="name"
+        [(ngModel)]="chatRoom.name"
+        #chatRoomName="ngModel"
+        placeholder="Chat Room Name">
+      <mat-error *ngIf="chatRoomName.hasError('required')">Chat room name is required</mat-error>
 
-  <div class="col">
-    <div class="card card-body">
-      <mat-form-field>
-        <input
-          matInput
-          name="name"
-          placeholder="Chat Room Name"
-                    [(ngModel)]="chatRoom.name">
+    </mat-form-field>
+    <mat-checkbox [(ngModel)]="chatRoom.isPrivate"
+                  name="private">Private
+    </mat-checkbox>
+    <button type="submit"
+            mat-raised-button
+            [disabled]="chatForm.invalid">Submit
+      <mat-icon>forward</mat-icon>
+    </button>
+  </form>
 
-      </mat-form-field>
-
-    </div>
-  </div>
+</div>
 
 
