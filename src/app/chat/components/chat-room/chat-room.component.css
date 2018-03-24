@@ -8,10 +8,14 @@
 }
 
 .mat-form-field{
-  width: 90%;
+  width: 80%;
 }
 
+.select-chat-room {
+  margin-left: 35px;
+  margin-top: 30px;
 
+}
 .chat-message-area{
   min-width: 95%;
 }
