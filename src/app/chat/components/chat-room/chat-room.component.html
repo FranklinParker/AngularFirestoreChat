@@ -15,7 +15,7 @@
       </mat-select>
     </mat-form-field>
     <div class="card "
-         *ngIf="(loggedInMembers$ | async) && selectedChatRoom">
+         *ngIf="loggedInMembers && selectedChatRoom">
       <div class="card-header">
         <div class="row">
           <div class="col-11"><h3>Current Members</h3></div>
@@ -34,8 +34,8 @@
            fxLayout="column" fxLayoutAlign="center center">
         <button type="button"
                 class="member-btn"
-                *ngFor="let loggedInMember of loggedInMembers$| async"
-                (click)="onSelectMember(loggedInMember.name)"
+                *ngFor="let loggedInMember of loggedInMembers"
+                (click)="onSelectMember(loggedInMember)"
                 mat-raised-button>{{loggedInMember.name}}
           <mat-icon>forward</mat-icon>
         </button>

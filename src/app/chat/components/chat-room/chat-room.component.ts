@@ -18,9 +18,9 @@ import {LoggedInMember} from '../../models/logged-in.member';
 export class ChatRoomComponent implements OnInit, OnDestroy {
   chatMessages = '';
   chatMessage: string;
-  showLoggedInMembers: true;
+  showLoggedInMembers = true;
   chatRooms$: Observable<ChatRoomModel[]>;
-  loggedInMembers$: Observable<LoggedInMember[]>;
+  loggedInMembers: LoggedInMember[];
   selectedChatRoom: ChatRoomModel;
   user: UserModel;
   userSub: Subscription;
@@ -33,7 +33,8 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.chatRooms$ = this.store.select(fromRoot.getChatRooms);
-    this.loggedInMembers$ = this.store.select(fromRoot.getLoggedInMembers);
+    this.store.select(fromRoot.getLoggedInMembers)
+      .subscribe((loggedIn: LoggedInMember[]) => this.loggedInMembers = loggedIn);
     this.userSub = this.store.select(fromRoot.getUser)
       .subscribe((user: UserModel) => {
         this.user = user;
@@ -66,8 +67,8 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
 
   }
 
-  onSelectMember(name: string) {
-    console.log('loggedInMember click', +name);
+  onSelectMember(member: LoggedInMember) {
+    console.log('loggedInMember click', member);
   }
 
   /**
