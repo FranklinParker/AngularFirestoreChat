@@ -1,40 +1,56 @@
 <div class="row m-1">
-  <div class="col-3">
-    <div class="card card-body">
-      <mat-form-field *ngIf="chatRooms$ | async">
-        <mat-select placeholder="Select Chat Room"
-                    [(ngModel)]="selectedChatRoom"
-                    name="chatRoomSelect">
-          <mat-option (click)="onSelectRoomToNone()">
-            None
-          </mat-option>
-          <mat-option *ngFor="let chatRoom of chatRooms$| async"
-                      [value]="chatRoom"
-                      (click)="onSelectChatRoom(chatRoom)">
-            {{ chatRoom.name }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-list *ngIf="(loggedInMembers$ | async) && selectedChatRoom" role="list">
-        <mat-list-item
-          *ngFor="let loggedInMember of loggedInMembers$| async"
-          (click)="onSelectMember(loggedInMember.name)">
-          {{loggedInMember.name}}
-        </mat-list-item>
-      </mat-list>
+  <div class="card card-body">
+    <mat-form-field *ngIf="chatRooms$ | async">
+      <mat-select placeholder="Select Chat Room"
+                  [(ngModel)]="selectedChatRoom"
+                  name="chatRoomSelect">
+        <mat-option (click)="onSelectRoomToNone()">
+          None
+        </mat-option>
+        <mat-option *ngFor="let chatRoom of chatRooms$| async"
+                    [value]="chatRoom"
+                    (click)="onSelectChatRoom(chatRoom)">
+          {{ chatRoom.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <div class="card "
+         *ngIf="(loggedInMembers$ | async) && selectedChatRoom">
+      <div class="card-header">
+        <div class="row">
+          <div class="col-11"><h3>Current Members</h3></div>
+          <div class="col-1 ">
+            <i *ngIf="!showLoggedInMembers"
+               (click)="showLoggedInMembers=true"
+               class="fa fa-arrow-circle-down"></i>
+            <i *ngIf="showLoggedInMembers"
+               (click)="showLoggedInMembers=false"
+               class="fa fa-arrow-circle-up"></i>
+          </div>
+        </div>
+      </div>
+      <div class="card-body"
+           *ngIf="showLoggedInMembers"
+           fxLayout="column" fxLayoutAlign="center center">
+        <button type="button"
+                *ngFor="let loggedInMember of loggedInMembers$| async"
+                (click)="onSelectMember(loggedInMember.name)"
+                mat-raised-button>{{loggedInMember.name}}
+          <mat-icon>forward</mat-icon>
+        </button>
+      </div>
     </div>
   </div>
-  <div class="col-9">
-    <div class="card m-2" fxLayout="column" fxLayoutAlign="center center">
-      <div class="card-header m-1">
-        <h5 class="text-center" *ngIf="!selectedChatRoom">
-          Select Chat Room</h5>
-        <h5 class="text-center" *ngIf="selectedChatRoom">
-          Welcome to Chat Room - {{selectedChatRoom.name}}</h5>
-      </div>
-      <div class="card-body m-1">
-        <div class="row">
-          <mat-form-field>
+  <div class="card chat-message-area m-2" fxLayout="column" fxLayoutAlign="center center">
+    <div class="card-header m-1">
+      <h5 class="text-center" *ngIf="!selectedChatRoom">
+        Select Chat Room</h5>
+      <h5 class="text-center" *ngIf="selectedChatRoom">
+        Welcome to Chat Room - {{selectedChatRoom.name}}</h5>
+    </div>
+    <div class="card-body m-1">
+      <div class="row">
+        <mat-form-field>
             <textarea matInput
                       readonly
                       [(ngModel)]="chatMessages"
@@ -42,19 +58,19 @@
                       matAutosizeMinRows="10"
                       matAutosizeMaxRows="15">
             </textarea>
-          </mat-form-field>
-        </div>
-        <div class="row">
-          <mat-form-field>
-            <input matInput
-                   [disabled]="!selectedChatRoom"
-                   [(ngModel)]="chatMessage"
-                   type="text"
-                   placeholder="Enter Message <Return Key>"
-                   (keyup)="onMessageKey($event)">
-          </mat-form-field>
-        </div>
+        </mat-form-field>
+      </div>
+      <div class="row">
+        <mat-form-field>
+          <input matInput
+                 [disabled]="!selectedChatRoom"
+                 [(ngModel)]="chatMessage"
+                 type="text"
+                 placeholder="Enter Message <Return Key>"
+                 (keyup)="onMessageKey($event)">
+        </mat-form-field>
       </div>
     </div>
   </div>
 </div>
+

@@ -18,6 +18,7 @@ import {LoggedInMember} from '../../models/logged-in.member';
 export class ChatRoomComponent implements OnInit, OnDestroy {
   chatMessages = '';
   chatMessage: string;
+  showLoggedInMembers: true;
   chatRooms$: Observable<ChatRoomModel[]>;
   loggedInMembers$: Observable<LoggedInMember[]>;
   selectedChatRoom: ChatRoomModel;
@@ -65,8 +66,8 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
 
   }
 
-  onSelectMember(loggedInMember: LoggedInMember) {
-    console.log('loggedInMember click', +loggedInMember);
+  onSelectMember(name: string) {
+    console.log('loggedInMember click', +name);
   }
 
   /**
