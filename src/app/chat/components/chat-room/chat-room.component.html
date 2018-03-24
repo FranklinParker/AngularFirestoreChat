@@ -33,6 +33,7 @@
            *ngIf="showLoggedInMembers"
            fxLayout="column" fxLayoutAlign="center center">
         <button type="button"
+                class="member-btn"
                 *ngFor="let loggedInMember of loggedInMembers$| async"
                 (click)="onSelectMember(loggedInMember.name)"
                 mat-raised-button>{{loggedInMember.name}}

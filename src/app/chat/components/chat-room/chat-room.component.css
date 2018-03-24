@@ -11,12 +11,11 @@
   width: 90%;
 }
 
-.mat-list{
-  border: blue 1px solid;
-  border-radius: 5px;
-  width: 60%;
-}
 
 .chat-message-area{
   min-width: 95%;
+}
+
+.member-btn{
+  min-width: 70%;
 }
