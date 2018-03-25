@@ -1,11 +1,12 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ChatMainComponent } from './components/chat-main/chat-main.component';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {ChatMainComponent} from './components/chat-main/chat-main.component';
 import {SharedModule} from '../shared/shared.module';
-import { AngularFirestoreModule} from 'angularfire2/firestore';
-import { ChatRoomComponent } from './components/chat-room/chat-room.component';
+import {AngularFirestoreModule} from 'angularfire2/firestore';
+import {ChatRoomComponent} from './components/chat-room/chat-room.component';
 import {MaterialModule} from '../material.module';
-import { ChatRoomAddEditComponent } from './components/chat-room-add-edit/chat-room-add-edit.component';
+import {ChatRoomAddEditComponent} from './components/chat-room-add-edit/chat-room-add-edit.component';
+import {ChatMemberDialogComponent} from './components/chat-member-dialog/chat-member-dialog.component';
 
 @NgModule({
   imports: [
@@ -17,9 +18,15 @@ import { ChatRoomAddEditComponent } from './components/chat-room-add-edit/chat-r
   declarations: [
     ChatMainComponent,
     ChatRoomComponent,
-    ChatRoomAddEditComponent],
+    ChatRoomAddEditComponent,
+    ChatMemberDialogComponent],
   exports: [
     ChatMainComponent
+  ],
+  entryComponents: [
+    ChatMemberDialogComponent
   ]
+
 })
-export class ChatModule { }
+export class ChatModule {
+}

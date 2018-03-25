@@ -9,6 +9,8 @@ import {ChatService} from '../../services/chat.service';
 import {ChatMessageModel} from '../../models/chat-message.model';
 import {UiService} from '../../../shared/service/ui.service';
 import {LoggedInMember} from '../../models/logged-in.member';
+import {MatDialog} from '@angular/material';
+import {ChatMemberDialogComponent} from '../chat-member-dialog/chat-member-dialog.component';
 
 @Component({
   selector: 'app-chat-room',
@@ -28,7 +30,8 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store<fromRoot.State>,
               private chatService: ChatService,
-              private uiService: UiService) {
+              private uiService: UiService,
+              private dialogService: MatDialog) {
   }
 
   ngOnInit() {
@@ -67,8 +70,22 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
 
   }
 
+  /**
+   * click on logged member
+   *
+   * @param {LoggedInMember} member
+   */
+
   onSelectMember(member: LoggedInMember) {
-    console.log('loggedInMember click', member);
+    const dialogRef = this.dialogService.open(ChatMemberDialogComponent, {
+      height: '50%',
+      width: '50%',
+      data: member,
+      disableClose: true
+    });
+    dialogRef.afterClosed().subscribe((data: any) => {
+      console.log('data', data);
+    });
   }
 
   /**
@@ -99,6 +116,11 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * on return add new chat message
+   *
+   * @param evt$
+   */
   onMessageKey(evt$) {
     if (evt$.keyCode === 13) {
       this.chatMessages += '\n' + this.user.name +
