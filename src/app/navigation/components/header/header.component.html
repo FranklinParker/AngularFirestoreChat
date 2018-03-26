@@ -1,5 +1,5 @@
 <mat-toolbar color="primary">
-  <div fxHide.gt-xs>
+  <div fxShow.gt-sm="false" >
     <button mat-icon-button
             (click)="onToggle()">
       <mat-icon>menu</mat-icon>
@@ -9,7 +9,8 @@
     <h4 *ngIf="user$ | async">Welcome to Chat - {{(user$ |async).name}}</h4>
     <h4 *ngIf="!(user$ | async)">Chat</h4>
   </div>
-  <div fxFlex fxLayout fxLayoutAlign="flex-end" fxHide.xs>
+  <div fxFlex fxLayout fxLayoutAlign="flex-end" fxShow.gt-sm="true"
+       fxShow="false">
     <ul fxLayout fxLayoutGap="10px" class="navigation-list-items">
       <li><a routerLink="/registration" *ngIf="!(isAuthenticated$ | async)" >Signup</a></li>
       <li> <a routerLink="/login" *ngIf="!(isAuthenticated$ | async)">Login</a></li>

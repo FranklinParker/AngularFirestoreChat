@@ -8,12 +8,13 @@
 }
 
 .mat-form-field{
-  width: 80%;
+  width: 60%;
 }
 
 .select-chat-room {
   margin-left: 35px;
   margin-top: 30px;
+  height: 100px;
 
 }
 .chat-message-area{
