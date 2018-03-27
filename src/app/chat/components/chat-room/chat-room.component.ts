@@ -11,6 +11,7 @@ import {UiService} from '../../../shared/service/ui.service';
 import {LoggedInMember} from '../../models/logged-in.member';
 import {MatDialog} from '@angular/material';
 import {ChatMemberDialogComponent} from '../chat-member-dialog/chat-member-dialog.component';
+import {PrivateMessageService} from '../../services/private-message.service';
 
 @Component({
   selector: 'app-chat-room',
@@ -31,7 +32,7 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
   constructor(private store: Store<fromRoot.State>,
               private chatService: ChatService,
               private uiService: UiService,
-              private dialogService: MatDialog) {
+              private privateMessageService: PrivateMessageService) {
   }
 
   ngOnInit() {
@@ -77,15 +78,16 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
    */
 
   onSelectMember(member: LoggedInMember) {
-    const dialogRef = this.dialogService.open(ChatMemberDialogComponent, {
-      height: '50%',
-      width: '50%',
-      data: member,
-      disableClose: true
-    });
-    dialogRef.afterClosed().subscribe((data: any) => {
-      console.log('data', data);
-    });
+    this.privateMessageService.startPrivateChat(member, this.user);
+    // const dialogRef = this.dialogService.open(ChatMemberDialogComponent, {
+    //   height: '40%',
+    //   width: '50%',
+    //   data: member,
+    //   disableClose: true
+    // });
+    // dialogRef.afterClosed().subscribe((data: any) => {
+    //   console.log('data', data);
+    // });
   }
 
   /**

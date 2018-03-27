@@ -13,13 +13,11 @@ import {Store} from '@ngrx/store';
 })
 export class ChatMainComponent implements OnInit {
 
-  chatRooms$: Observable<ChatRoomModel[]>;
   constructor(private chatService: ChatService,
               private store: Store<fromRoot.State>) {
   }
 
   ngOnInit() {
-    this.chatRooms$ = this.store.select(fromRoot.getChatRooms);
     this.chatService.getChatRooms();
   }
 

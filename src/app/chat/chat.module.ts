@@ -7,6 +7,8 @@ import {ChatRoomComponent} from './components/chat-room/chat-room.component';
 import {MaterialModule} from '../material.module';
 import {ChatRoomAddEditComponent} from './components/chat-room-add-edit/chat-room-add-edit.component';
 import {ChatMemberDialogComponent} from './components/chat-member-dialog/chat-member-dialog.component';
+import {PrivateMessageService} from './services/private-message.service';
+import {SendPrivateMessageService} from './services/send-private-message.service';
 
 @NgModule({
   imports: [
@@ -25,6 +27,10 @@ import {ChatMemberDialogComponent} from './components/chat-member-dialog/chat-me
   ],
   entryComponents: [
     ChatMemberDialogComponent
+  ],
+  providers: [
+    PrivateMessageService,
+    SendPrivateMessageService
   ]
 
 })

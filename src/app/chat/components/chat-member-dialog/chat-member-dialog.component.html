@@ -1,12 +1,13 @@
 <div class="card flex-grow">
   <div class="card-header">
-    <h4>Private Message {{loggedInMember.name}}</h4>
+    <h4>Private Message To {{recipient.name}}</h4>
   </div>
   <div class="card-body">
     <div class="container-fluid">
       <mat-form-field>
         <input matInput
                name="yourMessage"
+               [(ngModel)]="messageToSend"
                placeholder="Your Message"
                type="text">
       </mat-form-field>
@@ -14,9 +15,11 @@
 
   </div>
   <div class="card-footer">
-    <div class="row">
+    <div class="row" fxLayoutGap="20px">
         <button mat-raised-button color="primary"
-                (click)="onClose()">Close</button>
+                (click)="onSendMessage()">Send</button>
+        <button mat-raised-button color="primary"
+              (click)="onCancel()">Cancel</button>
     </div>
   </div>
 </div>
