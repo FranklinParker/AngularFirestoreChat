@@ -15,6 +15,7 @@ import {LoggedInMember} from '../models/logged-in.member';
 @Injectable()
 export class ChatService {
   fbSubs: Subscription[] = [];
+  loggedInUsersSub: Subscription;
   currentChatRoom: ChatRoomModel;
 
   constructor(private db: AngularFirestore,
@@ -143,7 +144,8 @@ export class ChatService {
 
 
   /**
-   * add logged in member
+   * when joining a chat make sure you leave any chat
+   * you are in, then add yourself to the new chat room
    *
    * @param {ChatRoomModel} chatRoom
    * @param {UserModel} user
@@ -175,12 +177,13 @@ export class ChatService {
   }
 
   /**
-   *
+   * get a list of logged users
    *
    *
    */
   getLoggedInUsersSubscription() {
     if (this.currentChatRoom) {
+      this.loggedInUsersSub =
       this.db.collection('chatRooms/' + this.currentChatRoom.id + '/loggedInUsers')
         .snapshotChanges()
         .map(docArray => {
@@ -239,6 +242,9 @@ export class ChatService {
   unsubcribe() {
     this.fbSubs.forEach(
       (sub: Subscription) => sub.unsubscribe());
+    if(this.loggedInUsersSub){
+      this.loggedInUsersSub.unsubscribe();
+    }
   }
 
 
