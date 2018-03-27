@@ -192,8 +192,8 @@ export class ChatService {
               return {
                 id: doc.payload.doc.id,
                 name: doc.payload.doc.data().name,
-                email: doc.payload.doc.data().email
-
+                email: doc.payload.doc.data().email,
+                userId: doc.payload.doc.data().userId
               };
             });
           })
