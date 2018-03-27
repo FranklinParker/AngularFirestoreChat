@@ -12,7 +12,7 @@ export class PrivateMessageService {
   constructor(private dialogService: MatDialog) {
   }
 
-  startPrivateChat(loggedInUser: LoggedInMember, sender:UserModel) {
+  startPrivateChat(loggedInUser: LoggedInMember, sender: UserModel) {
     const privateMessageDialog = this.dialogService.open(ChatMemberDialogComponent, {
       height: '40%',
       width: '50%',
