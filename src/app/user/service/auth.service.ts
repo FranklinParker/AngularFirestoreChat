@@ -70,17 +70,34 @@ export class AuthService {
         this.uiService.showSnackbar(err.message, null, 4000));
   }
 
+  /**
+   * load the user info when logging in
+   *
+   * @param {string} email
+   */
   private loadUser(email: string) {
     this.fbSubs.push(
       this.db.collection('users',
         ref => ref.where('email', '==', email)
       )
-        .valueChanges()
+        .snapshotChanges()
+        .map(docArray => {
+          // throw(new Error());
+          return docArray.map(doc => {
+            return {
+              id: doc.payload.doc.id,
+              name: doc.payload.doc.data().name,
+              email: doc.payload.doc.data().email
+
+            };
+          });
+        })
         .subscribe((users) => {
           if (users && users.length > 0) {
             const user = {
               name: users[0]['name'],
-              email: users[0]['email']
+              email: users[0]['email'],
+              id: users[0]['id']
             };
             this.store.dispatch(new SetUser(user));
           }
@@ -147,7 +164,7 @@ export class AuthService {
 
 
   /**
-   *
+   * log out make sure you leave any chat you are in
    *
    *
    */

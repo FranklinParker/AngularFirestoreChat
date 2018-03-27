@@ -184,24 +184,24 @@ export class ChatService {
   getLoggedInUsersSubscription() {
     if (this.currentChatRoom) {
       this.loggedInUsersSub =
-      this.db.collection('chatRooms/' + this.currentChatRoom.id + '/loggedInUsers')
-        .snapshotChanges()
-        .map(docArray => {
-          // throw(new Error());
-          return docArray.map(doc => {
-            return {
-              id: doc.payload.doc.id,
-              name: doc.payload.doc.data().name,
-              email: doc.payload.doc.data().email
+        this.db.collection('chatRooms/' + this.currentChatRoom.id + '/loggedInUsers')
+          .snapshotChanges()
+          .map(docArray => {
+            // throw(new Error());
+            return docArray.map(doc => {
+              return {
+                id: doc.payload.doc.id,
+                name: doc.payload.doc.data().name,
+                email: doc.payload.doc.data().email
 
-            };
-          });
-        })
-        .subscribe((logInMembers: LoggedInMember[]) => {
-            console.log('got logged in users', logInMembers);
-            this.store.dispatch(new SetLoggedInUsers(logInMembers));
-          }
-        );
+              };
+            });
+          })
+          .subscribe((logInMembers: LoggedInMember[]) => {
+              console.log('got logged in users', logInMembers);
+              this.store.dispatch(new SetLoggedInUsers(logInMembers));
+            }
+          );
 
     }
 
@@ -221,7 +221,8 @@ export class ChatService {
     return this.db.collection('chatRooms/' + chatRoom.id + '/loggedInUsers')
       .add({
           name: user.name,
-          email: user.email
+          email: user.email,
+          userId: user.id
         }
       ).then((result) => {
         console.log('result ', result.id);
@@ -242,10 +243,8 @@ export class ChatService {
   unsubcribe() {
     this.fbSubs.forEach(
       (sub: Subscription) => sub.unsubscribe());
-    if(this.loggedInUsersSub){
+    if (this.loggedInUsersSub) {
       this.loggedInUsersSub.unsubscribe();
     }
   }
-
-
 }
