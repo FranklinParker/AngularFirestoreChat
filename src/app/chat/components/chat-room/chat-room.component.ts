@@ -79,15 +79,6 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
 
   onSelectMember(member: LoggedInMember) {
     this.privateMessageService.startPrivateChat(member, this.user);
-    // const dialogRef = this.dialogService.open(ChatMemberDialogComponent, {
-    //   height: '40%',
-    //   width: '50%',
-    //   data: member,
-    //   disableClose: true
-    // });
-    // dialogRef.afterClosed().subscribe((data: any) => {
-    //   console.log('data', data);
-    // });
   }
 
   /**

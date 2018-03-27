@@ -198,7 +198,6 @@ export class ChatService {
             });
           })
           .subscribe((logInMembers: LoggedInMember[]) => {
-              console.log('got logged in users', logInMembers);
               this.store.dispatch(new SetLoggedInUsers(logInMembers));
             }
           );
@@ -225,7 +224,6 @@ export class ChatService {
           userId: user.id
         }
       ).then((result) => {
-        console.log('result ', result.id);
         chatRoom.loggedInUserId = result.id;
         this.currentChatRoom = chatRoom;
         return this.currentChatRoom;
