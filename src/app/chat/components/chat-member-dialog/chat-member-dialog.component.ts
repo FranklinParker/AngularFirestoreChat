@@ -36,7 +36,8 @@ export class ChatMemberDialogComponent implements OnInit {
   onSendMessage() {
     const message: PrivateMessage = {
       sender: this.sender,
-      message: this.messageToSend
+      message: this.messageToSend,
+      read: false
     };
     this.sendMessageService.sendPrivateMessage(this.recipient,
       message);

@@ -4,6 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import {ChatRoomModel} from '../../models/chat-room.model';
 import * as fromRoot from '../../../app.reducer';
 import {Store} from '@ngrx/store';
+import {PrivateMessage} from '../../models/private-message';
 
 
 @Component({
@@ -19,6 +20,10 @@ export class ChatMainComponent implements OnInit {
 
   ngOnInit() {
     this.chatService.getChatRooms();
+    this.store.select(fromRoot.getPrivateMessagesNew)
+      .subscribe((privateMessages: PrivateMessage[]) => {
+        console.log('Got new private messages', privateMessages);
+      });
   }
 
 }

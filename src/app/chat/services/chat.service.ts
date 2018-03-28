@@ -9,7 +9,6 @@ import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';
 import {ChatMessageModel} from '../models/chat-message.model';
 import {UserModel} from '../../user/user-model';
-import {promise} from 'selenium-webdriver';
 import {LoggedInMember} from '../models/logged-in.member';
 
 @Injectable()

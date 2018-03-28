@@ -20,7 +20,7 @@ export class SendPrivateMessageService  {
   sendPrivateMessage(loggedInMember: LoggedInMember,
                      privateMessage: PrivateMessage) {
     this.db.collection('users/' + loggedInMember.userId
-      + '/privateMessages')
+      + '/privateMessages', )
       .add(privateMessage)
       .then((result) => {
       })

@@ -9,8 +9,6 @@ import {ChatService} from '../../services/chat.service';
 import {ChatMessageModel} from '../../models/chat-message.model';
 import {UiService} from '../../../shared/service/ui.service';
 import {LoggedInMember} from '../../models/logged-in.member';
-import {MatDialog} from '@angular/material';
-import {ChatMemberDialogComponent} from '../chat-member-dialog/chat-member-dialog.component';
 import {PrivateMessageService} from '../../services/private-message.service';
 
 @Component({

@@ -3,22 +3,29 @@ import {
   SET_CHAT_ROOMS,
   UNSET_CHAT_ROOMS,
   SET_LOGGED_IN_USERS,
-  UNSET_LOGGED_IN_USERS
+  UNSET_LOGGED_IN_USERS,
+  ADD_PRIVATE_MESSAGE
 
 } from './chat.actions';
 import {ChatRoomModel} from './models/chat-room.model';
 import {LoggedInMember} from './models/logged-in.member';
+import {PrivateMessage} from './models/private-message';
 
 export interface State {
   chatRooms: ChatRoomModel[];
   loggedInMembers: LoggedInMember[];
+  privateMessagesNew: PrivateMessage[];
+  privateMessagesArchived: PrivateMessage[];
 
 }
 
 
 const initialState: State = {
   chatRooms: [],
-  loggedInMembers: []
+  loggedInMembers: [],
+  privateMessagesNew: [],
+  privateMessagesArchived: []
+
 };
 
 export function chatReducer(state = initialState, action: ChatActions) {
@@ -43,6 +50,22 @@ export function chatReducer(state = initialState, action: ChatActions) {
         ...state,
         loggedInMembers: []
       };
+    case ADD_PRIVATE_MESSAGE:
+      const privateMessageOld = state.privateMessagesArchived;
+      privateMessageOld.concat(state.privateMessagesNew);
+      const newPrivateMessage: PrivateMessage[] = [];
+      action.payload.forEach((privMsg: PrivateMessage) => {
+        const pm = privateMessageOld.filter((sPm: PrivateMessage ) => sPm.id === privMsg.id);
+        if ( !pm) {
+          newPrivateMessage.push(privMsg);
+        }
+      });
+      // const privateMessageNew = state.
+      return {
+        ...state,
+        privateMessageOld: privateMessageOld,
+        privateMessagesNew: newPrivateMessage
+      };
 
     default:
       return state;
@@ -51,6 +74,9 @@ export function chatReducer(state = initialState, action: ChatActions) {
 
 export const getChatRooms = (state: State) => state.chatRooms;
 export const getLoggedInMembers = (state: State) => state.loggedInMembers;
+export const getPrivateMessagesNew = (state: State) => state.privateMessagesNew;
+export const getPrivateMessagesArchived = (state: State) => state.privateMessagesArchived;
+
 
 
 

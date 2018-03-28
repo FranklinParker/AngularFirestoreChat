@@ -4,16 +4,20 @@ import {LoggedInMember} from '../models/logged-in.member';
 import {ChatMemberDialogComponent} from '../components/chat-member-dialog/chat-member-dialog.component';
 import {AngularFirestore} from 'angularfire2/firestore';
 import {UserModel} from '../../user/user-model';
-
 import {PrivateMessage} from '../models/private-message';
 import {Subscription} from 'rxjs/Subscription';
+import {Store} from '@ngrx/store';
+import * as fromRoot from '../../app.reducer';
+import {AddPrivateMessage} from '../chat.actions';
+
 
 @Injectable()
 export class PrivateMessageService {
   privateMessageSub: Subscription;
 
   constructor(private dialogService: MatDialog,
-              private db: AngularFirestore) {
+              private db: AngularFirestore,
+              private store: Store<fromRoot.State>) {
   }
 
   /**
@@ -24,25 +28,43 @@ export class PrivateMessageService {
    */
   userPrivateMessageSub(user: UserModel) {
     this.privateMessageSub =
-      this.db.collection('users/' + user.id + '/privateMessages')
-        .snapshotChanges([ 'added'])
+      this.db.collection('users/' + user.id + '/privateMessages',
+        ref => ref.where('read', '==', false))
+        .snapshotChanges(['added'])
         .map(docArray => {
           return docArray.map(doc => {
             const privateMessage = doc.payload.doc.data();
             return {
               id: doc.payload.doc.id,
               message: privateMessage.message,
-              sender: privateMessage.sender
+              sender: privateMessage.sender,
+              read: privateMessage.read
             };
           });
         })
         .subscribe(
           (privateMessages: PrivateMessage[]) => {
-            console.log('privateMessages', privateMessages);
+            this.store.dispatch( new AddPrivateMessage(privateMessages));
+            this.markMessageRead(privateMessages, user.id);
           },
           error => {
           }
         );
+  }
+
+  /***
+   * mark private messages as read
+   *
+   *
+   * @param {PrivateMessage[]} privateMessages
+   */
+
+  private markMessageRead(privateMessages: PrivateMessage[], userId: string) {
+    privateMessages.forEach((privateMessage: PrivateMessage) => {
+      this.db.doc('users/' + userId + '/privateMessages/' + privateMessage.id)
+        .update({ read: true});
+    });
+
   }
 
   /**
@@ -62,7 +84,6 @@ export class PrivateMessageService {
       disableClose: true
     });
     privateMessageDialog.afterClosed().subscribe((data: any) => {
-      console.log('data', data);
     });
   }
 
