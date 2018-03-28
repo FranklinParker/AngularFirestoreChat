@@ -13,7 +13,7 @@ import {PrivateMessage} from '../../models/private-message';
   styleUrls: ['./chat-main.component.css']
 })
 export class ChatMainComponent implements OnInit {
-
+  privateMessages: PrivateMessage[] = [];
   constructor(private chatService: ChatService,
               private store: Store<fromRoot.State>) {
   }
@@ -23,6 +23,7 @@ export class ChatMainComponent implements OnInit {
     this.store.select(fromRoot.getPrivateMessagesNew)
       .subscribe((privateMessages: PrivateMessage[]) => {
         console.log('Got new private messages', privateMessages);
+        this.privateMessages = privateMessages;
       });
   }
 
