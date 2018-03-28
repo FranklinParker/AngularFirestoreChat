@@ -42,6 +42,9 @@ export class ChatRoomComponent implements OnInit, OnDestroy {
     this.userSub = this.store.select(fromRoot.getUser)
       .subscribe((user: UserModel) => {
         this.user = user;
+        if (user) {
+          this.privateMessageService.userPrivateMessageSub(user);
+        }
       });
 
   }

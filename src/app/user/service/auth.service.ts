@@ -12,6 +12,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {ChatService} from '../../chat/services/chat.service';
 import {Observable} from 'rxjs/Observable';
 import {take} from 'rxjs/operators';
+import {PrivateMessageService} from '../../chat/services/private-message.service';
 
 
 @Injectable()
@@ -23,7 +24,8 @@ export class AuthService {
               private uiService: UiService,
               private store: Store<fromRoot.State>,
               private router: Router,
-              private chatService: ChatService) {
+              private chatService: ChatService,
+              private privateMessageService: PrivateMessageService) {
   }
 
   initAuthListener() {
@@ -32,6 +34,7 @@ export class AuthService {
         this.store.dispatch(new Auth.SetAuthenticated());
       } else {
         this.chatService.unsubcribe();
+        this.privateMessageService.unsubscribe();
         this.cancelSubscription();
         this.store.dispatch(new Auth.SetUnauthenticated());
         this.store.dispatch(new UnsetUser());
