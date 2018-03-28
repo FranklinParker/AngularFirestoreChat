@@ -10,6 +10,7 @@ import {
 import {ChatRoomModel} from './models/chat-room.model';
 import {LoggedInMember} from './models/logged-in.member';
 import {PrivateMessage} from './models/private-message';
+import {shimContentAttribute} from '@angular/platform-browser/src/dom/dom_renderer';
 
 export interface State {
   chatRooms: ChatRoomModel[];
@@ -52,18 +53,24 @@ export function chatReducer(state = initialState, action: ChatActions) {
       };
     case ADD_PRIVATE_MESSAGE:
       const privateMessageOld = state.privateMessagesArchived;
-      privateMessageOld.concat(state.privateMessagesNew);
+      state.privateMessagesNew.forEach((privMsg: PrivateMessage) => {
+        privateMessageOld.push(privMsg);
+      });
+      console.log('privateMessageOld', privateMessageOld);
+
+      console.log('privateMessageNew', state.privateMessagesNew);
       const newPrivateMessage: PrivateMessage[] = [];
       action.payload.forEach((privMsg: PrivateMessage) => {
-        const pm = privateMessageOld.filter((sPm: PrivateMessage ) => sPm.id === privMsg.id);
-        if ( !pm) {
+        const pm = privateMessageOld.filter((sPm: PrivateMessage) => sPm.id === privMsg.id);
+        console.log('found', pm);
+        if (pm.length === 0) {
           newPrivateMessage.push(privMsg);
         }
       });
       // const privateMessageNew = state.
       return {
         ...state,
-        privateMessageOld: privateMessageOld,
+        privateMessagesArchived: privateMessageOld,
         privateMessagesNew: newPrivateMessage
       };
 

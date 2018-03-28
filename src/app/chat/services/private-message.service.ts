@@ -45,7 +45,7 @@ export class PrivateMessageService {
         .subscribe(
           (privateMessages: PrivateMessage[]) => {
             this.store.dispatch( new AddPrivateMessage(privateMessages));
-            this.markMessageRead(privateMessages, user.id);
+           // this.markMessageRead(privateMessages, user.id);
           },
           error => {
           }
