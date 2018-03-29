@@ -10,6 +10,7 @@ import {ChatMemberDialogComponent} from './components/chat-member-dialog/chat-me
 import {PrivateMessageService} from './services/private-message.service';
 import {SendPrivateMessageService} from './services/send-private-message.service';
 import { PrivateMessageMainComponent } from './components/private-message-main/private-message-main.component';
+import { PrivateMessageChatComponent } from './components/private-message-chat/private-message-chat.component';
 
 @NgModule({
   imports: [
@@ -23,7 +24,8 @@ import { PrivateMessageMainComponent } from './components/private-message-main/p
     ChatRoomComponent,
     ChatRoomAddEditComponent,
     ChatMemberDialogComponent,
-    PrivateMessageMainComponent
+    PrivateMessageMainComponent,
+    PrivateMessageChatComponent
   ],
   exports: [
     ChatMainComponent
