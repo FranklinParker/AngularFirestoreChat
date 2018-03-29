@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import {PrivateMessageChatRoom} from '../../models/private-message-chat-room';
 
 @Component({
@@ -9,9 +9,16 @@ import {PrivateMessageChatRoom} from '../../models/private-message-chat-room';
 export class PrivateMessageChatComponent implements OnInit {
   @Input('privateMessageChatRoom') privateMessageChatRoom: PrivateMessageChatRoom;
   showMessages = true;
-  constructor() { }
+
+  constructor() {
+  }
 
   ngOnInit() {
+  }
+
+  get showMessageArrow() {
+    return this.showMessages ? 'fa fa-arrow-circle-up'
+      : 'fa fa-arrow-circle-down';
   }
 
 }

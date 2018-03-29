@@ -5,7 +5,7 @@
         <h5>Messages from {{privateMessageChatRoom.sender.name}}</h5>
       </div>
       <div class="col-1">
-        <i class="fa fa-arrow-circle-up"></i>
+        <i [ngClass]="showMessageArrow" (click)="showMessages=!showMessages"></i>
       </div>
     </div>
   </div>
