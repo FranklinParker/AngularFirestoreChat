@@ -1,3 +1,6 @@
-<p>
-  private-message-main works!
-</p>
+<div class="container-fliud">
+  <app-private-message-chat
+    *ngFor="let privateMessageChatRoom of privateMessageChatRooms"
+    [privateMessageChatRoom]="privateMessageChatRoom">
+  </app-private-message-chat>
+</div>

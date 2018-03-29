@@ -6,6 +6,6 @@
     <app-chat-room-add-edit></app-chat-room-add-edit>
   </mat-tab>
   <mat-tab label="Private Messages" *ngIf="privateMessageChatRooms.length>0">
-    <app-private-message-main></app-private-message-main>
+    <app-private-message-main [privateMessageChatRooms]="privateMessageChatRooms"></app-private-message-main>
   </mat-tab>
 </mat-tab-group>
