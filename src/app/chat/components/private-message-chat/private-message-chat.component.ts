@@ -8,6 +8,7 @@ import {PrivateMessageChatRoom} from '../../models/private-message-chat-room';
 })
 export class PrivateMessageChatComponent implements OnInit {
   @Input('privateMessageChatRoom') privateMessageChatRoom: PrivateMessageChatRoom;
+  showMessages = true;
   constructor() { }
 
   ngOnInit() {

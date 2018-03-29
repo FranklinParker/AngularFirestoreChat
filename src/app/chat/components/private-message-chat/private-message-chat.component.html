@@ -1,10 +1,19 @@
 <div class="card">
   <div class="card-header">
-    <h5>Messages from {{privateMessageChatRoom.sender.name}}</h5>
+    <div class="row">
+      <div class="col-11">
+        <h5>Messages from {{privateMessageChatRoom.sender.name}}</h5>
+      </div>
+      <div class="col-1">
+        <i class="fa fa-arrow-circle-up"></i>
+      </div>
+    </div>
   </div>
-  <div class="card-body">
-    <p *ngFor="let message of privateMessageChatRoom.privateMessages">
-      {{message.message}}
-    </p>
+  <div class="card-body" *ngIf="showMessages">
+    <div class="row" *ngFor="let privateMessage of privateMessageChatRoom.privateMessages">
+      <div class="col">
+        {{privateMessage.message}}
+      </div>
+    </div>
   </div>
 </div>
