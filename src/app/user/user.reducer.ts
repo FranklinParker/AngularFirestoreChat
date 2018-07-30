@@ -19,7 +19,7 @@ export function userReducer(state = initialState, action: UserActions) {
   switch (action.type) {
     case SET_USER:
       return {
-        user: action.payload
+        user: action['payload']
       };
     case UNSET_USER:
       return {

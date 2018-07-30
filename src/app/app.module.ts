@@ -11,7 +11,7 @@ import {MaterialModule} from './material.module';
 import {UserModule} from './user/user.module';
 import {FlexLayoutModule} from '@angular/flex-layout';
 import {AngularFireModule} from 'angularfire2';
-import {environment} from '../environments/environment';
+import {environment} from '../enviroments/environment';
 import {AngularFirestoreModule} from 'angularfire2/firestore';
 import {StoreModule} from '@ngrx/store';
 import { reducers } from './app.reducer';

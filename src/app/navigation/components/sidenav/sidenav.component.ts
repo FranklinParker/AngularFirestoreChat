@@ -4,6 +4,7 @@ import * as fromRoot from '../../../app.reducer';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';
 
+
 @Component({
   selector: 'app-sidenav',
   templateUrl: './sidenav.component.html',
